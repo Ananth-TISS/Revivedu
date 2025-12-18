@@ -1,0 +1,177 @@
+{
+  "identity": {
+    "name": "E1",
+    "persona": "The Anti-AI Designer",
+    "philosophy": "Fusion over Imitation. Emotion First. Content is King."
+  },
+  "design_system": {
+    "theme": "Organic Playfulness",
+    "description": "A warm, tactile aesthetic that feels like a high-end storybook or a modern craft station. It avoids the sterile 'SaaS' look by using warm backgrounds, soft serifs, and 'pop' shadows.",
+    "typography": {
+      "headings": {
+        "font_family": "Fraunces, serif",
+        "weights": ["600", "700"],
+        "usage": "Use for all H1-H3. Tight tracking (-0.02em).",
+        "fallback": "Merriweather, serif"
+      },
+      "body": {
+        "font_family": "Nunito, sans-serif",
+        "weights": ["400", "600", "700"],
+        "usage": "Use for all UI text, paragraphs, and inputs.",
+        "fallback": "Quicksand, sans-serif"
+      },
+      "mono": {
+        "font_family": "JetBrains Mono, monospace",
+        "usage": "Use for code snippets or data values."
+      }
+    },
+    "colors": {
+      "palette": {
+        "background": "#FDFBF7",
+        "foreground": "#2D3436",
+        "card": "#FFFFFF",
+        "card_foreground": "#2D3436",
+        "primary": "#E76F51",
+        "primary_foreground": "#FFFFFF",
+        "secondary": "#264653",
+        "secondary_foreground": "#FFFFFF",
+        "muted": "#F4F1EA",
+        "muted_foreground": "#64748B",
+        "accent": "#E9C46A",
+        "accent_foreground": "#264653",
+        "destructive": "#EF476F",
+        "destructive_foreground": "#FFFFFF",
+        "border": "#E5E0D8",
+        "input": "#FFFFFF",
+        "ring": "#E76F51"
+      },
+      "chart_colors": {
+        "1": "#E76F51",
+        "2": "#2A9D8F",
+        "3": "#E9C46A",
+        "4": "#F4A261",
+        "5": "#264653"
+      },
+      "usage_rules": [
+        "NEVER use pure black (#000000). Use #2D3436 or #264653.",
+        "Primary color (#E76F51) is for CTAs only.",
+        "Use 'Accent' (#E9C46A) for highlights, badges, or illustrations.",
+        "Background is NOT white. It is #FDFBF7 (Warm Paper)."
+      ]
+    },
+    "spacing": {
+      "scale": "Tailwind default but shifted up. Use p-6 or p-8 where you'd normally use p-4.",
+      "container_padding": "p-6 md:p-12",
+      "grid_gap": "gap-6 md:gap-8"
+    },
+    "visual_enhancers": {
+      "border_radius": {
+        "default": "1rem",
+        "card": "1.5rem",
+        "button": "9999px"
+      },
+      "shadows": {
+        "card": "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
+        "pop": "4px 4px 0px 0px rgba(38, 70, 83, 0.1)",
+        "hover": "6px 6px 0px 0px rgba(38, 70, 83, 0.15)"
+      },
+      "textures": [
+        "Use a subtle noise texture on the background if possible (opacity 0.03).",
+        "Use 'sticker' effects (slight rotation) for playful elements."
+      ]
+    }
+  },
+  "components": {
+    "buttons": {
+      "style": "Pill-shaped (rounded-full).",
+      "interaction": "Transform: translateY(-2px) on hover. Active: scale(0.98).",
+      "classes": "font-bold tracking-wide shadow-sm hover:shadow-md transition-all duration-200"
+    },
+    "cards": {
+      "style": "White bg, rounded-3xl, soft border or 'pop' shadow.",
+      "classes": "bg-card text-card-foreground rounded-3xl border border-border/50 shadow-sm"
+    },
+    "inputs": {
+      "style": "Large, friendly, rounded-xl.",
+      "classes": "h-12 rounded-xl border-2 border-border focus:border-primary focus:ring-0 bg-white"
+    },
+    "navigation": {
+      "style": "Floating 'Glass' or Solid Pill.",
+      "classes": "backdrop-blur-md bg-white/80 border border-white/20 rounded-full px-6 py-3 shadow-sm"
+    }
+  },
+  "layout_strategies": {
+    "dashboard": {
+      "type": "Soft Bento",
+      "rules": [
+        "Use a grid with 'gap-6'.",
+        "Cards should have 'rounded-3xl'.",
+        "Mix 1x1 (Stats), 2x1 (Graphs), and 2x2 (Main Activity) blocks.",
+        "Don't fill every pixel. Leave whitespace."
+      ]
+    },
+    "marketing": {
+      "type": "Storybook Scroll",
+      "rules": [
+        "Large, centered typography for Hero.",
+        "Asymmetrical image placement.",
+        "Use 'wave' dividers between sections (SVG)."
+      ]
+    }
+  },
+  "assets": {
+    "images": [
+      {
+        "category": "hero_science",
+        "url": "https://images.unsplash.com/photo-1613271752699-ede48a285196?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwxfHxjaGlsZCUyMGxlYXJuaW5nJTIwc2NpZW5jZSUyMGV4cGVyaW1lbnQlMjBob21lfGVufDB8fHx8MTc2NjA2MTA1OXww&ixlib=rb-4.1.0&q=85",
+        "description": "Kid scientist in lab coat, perfect for 'Activity Generation' hero."
+      },
+      {
+        "category": "parent_child_reading",
+        "url": "https://images.unsplash.com/photo-1758687127068-816ae9b29c0c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwxfHxwYXJlbnQlMjB0ZWFjaGluZyUyMGNoaWxkJTIwcmVhZGluZ3xlbnwwfHx8fDE3NjYwNjEwNjB8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Father and son reading, use for 'User Input' or 'Library' section."
+      },
+      {
+        "category": "creative_mess",
+        "url": "https://images.unsplash.com/photo-1615909407710-9fe4c6b11f97?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwzfHxraWRzJTIwYXJ0JTIwY3JhZnQlMjBzdXBwbGllcyUyMG1lc3N5JTIwdGFibGV8ZW58MHx8fHwxNzY2MDYxMDYyfDA&ixlib=rb-4.1.0&q=85",
+        "description": "Art supplies, use for 'Artifact Upload' background or accent."
+      }
+    ],
+    "icons": {
+      "library": "lucide-react",
+      "style": "Rounded, stroke-width-2. Use playful colors for icons (e.g., text-primary or text-secondary)."
+    }
+  },
+  "motion": {
+    "principles": [
+      "Bouncy and playful, not just 'smooth'.",
+      "Use 'spring' physics where possible.",
+      "Stagger children elements."
+    ],
+    "transitions": "transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+  },
+  "accessibility": {
+    "rules": [
+      "Ensure text contrast is > 4.5:1.",
+      "Focus rings must be visible (use 'ring-2 ring-primary').",
+      "All interactive elements must have 'data-testid'."
+    ]
+  },
+  "instructions_to_main_agent": [
+    "1. UPDATE 'tailwind.config.js' with the new color palette and border radius.",
+    "2. UPDATE 'index.css' to set the CSS variables for the theme.",
+    "3. INSTALL 'lucide-react' if not present.",
+    "4. USE 'Fraunces' for headings. Import it from Google Fonts in index.css.",
+    "5. USE 'Nunito' for body. Import it from Google Fonts in index.css.",
+    "6. WHEN BUILDING PAGES: Use the 'Soft Bento' layout strategy.",
+    "7. FORMS: Break long forms into steps (Wizard pattern) to keep it playful and not overwhelming.",
+    "8. IMAGES: Use the provided Unsplash URLs. Do not use placeholders."
+  ],
+  "universal_guidelines": [
+    "Avoid generic 'SaaS Blue'.",
+    "Don't center everything. Use asymmetry.",
+    "Use 'sonner' for toasts.",
+    "Use 'lucide-react' for icons.",
+    "All interactive elements MUST have data-testid."
+  ]
+}
