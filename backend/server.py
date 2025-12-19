@@ -113,10 +113,10 @@ async def generate_activity_with_ai(input_data: ActivityInput) -> dict:
         intelligences_str = ", ".join(input_data.intelligences)
         tools_str = ", ".join(input_data.tools)
         
-        prompt = f"""Create a comprehensive educational activity for a {input_data.age}-year-old child.
+        prompt = f"""Create a comprehensive educational activity for a {input_data.age}-year-old gifted or homeschooled child in India.
 
 Subjects to cover: {subjects_str}
-Multiple Intelligences to engage: {intelligences_str}
+Multiple Intelligences to engage (Howard Gardner's theory): {intelligences_str}
 Available tools: {tools_str}
 
 Generate an activity that:
@@ -125,6 +125,8 @@ Generate an activity that:
 3. Supports Social and Emotional Learning (SEL)
 4. Is age-appropriate and engaging
 5. Can be done with the available tools
+6. Aligns with NIOS curriculum standards where applicable
+7. Recognizes the unique needs of gifted and homeschooled learners
 
 Respond in the following JSON format:
 {{
@@ -141,7 +143,7 @@ Make it creative, fun, and educational!"""
         chat = LlmChat(
             api_key=emergent_key,
             session_id=f"activity_{uuid.uuid4()}",
-            system_message="You are an expert educational activity designer specializing in homeschooling and gifted education. You create engaging, age-appropriate activities that promote multiple intelligences, 21st century skills, and SEL. Always respond with valid JSON only."
+            system_message="You are an expert educational activity designer for Revivedu platform, specializing in homeschooling, gifted education, and NEP 2020 guidelines. You create engaging, age-appropriate activities that promote multiple intelligences, 21st century skills, and SEL. Always respond with valid JSON only."
         )
         chat.with_model("openai", "gpt-5.1")
         
@@ -169,7 +171,7 @@ Make it creative, fun, and educational!"""
 # Routes
 @api_router.get("/")
 async def root():
-    return {"message": "Homeschool Learning Portal API"}
+    return {"message": "Revivedu API - Reviving Education Through Intelligence"}
 
 @api_router.post("/activities/generate", response_model=ActivityResponse)
 async def create_activity(input_data: ActivityInput):
