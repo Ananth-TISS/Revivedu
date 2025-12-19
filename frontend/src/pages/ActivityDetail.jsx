@@ -215,9 +215,74 @@ const ActivityDetail = () => {
 
           <TabsContent value="activity" className="mt-8">
             <div className="space-y-8">
+              {activity.materials_required && activity.materials_required.length > 0 && (
+                <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="materials-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Materials Required</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="grid sm:grid-cols-2 gap-3">
+                      {activity.materials_required.map((material, index) => (
+                        <li key={index} className="flex gap-2 items-start">
+                          <CheckCircle2 className="h-5 w-5 text-accent flex-shrink-0 mt-1" />
+                          <span className="text-foreground/80">{material}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {activity.curricular_areas && (
+                <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="curricular-areas-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Curricular Alignment</CardTitle>
+                    <CardDescription>Standards and framework alignment for educational compliance</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {activity.curricular_areas.ncf_se_2023 && activity.curricular_areas.ncf_se_2023.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold text-foreground mb-2">NCF-SE 2023</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {activity.curricular_areas.ncf_se_2023.map((area, idx) => (
+                            <span key={idx} className="px-3 py-1 bg-accent/20 text-accent-foreground rounded-full text-sm">
+                              {area}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {activity.curricular_areas.nios_subjects && activity.curricular_areas.nios_subjects.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold text-foreground mb-2">NIOS Subjects</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {activity.curricular_areas.nios_subjects.map((subject, idx) => (
+                            <span key={idx} className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">
+                              {subject}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {activity.curricular_areas.learning_domains && activity.curricular_areas.learning_domains.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold text-foreground mb-2">Learning Domains</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {activity.curricular_areas.learning_domains.map((domain, idx) => (
+                            <span key={idx} className="px-3 py-1 bg-secondary/20 text-secondary rounded-full text-sm">
+                              {domain}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+
               <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="instructions-card">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-secondary">Instructions</CardTitle>
+                  <CardTitle className="text-2xl text-secondary">Step-by-Step Process</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ol className="space-y-4">
@@ -232,6 +297,36 @@ const ActivityDetail = () => {
                   </ol>
                 </CardContent>
               </Card>
+
+              {activity.success_metrics && activity.success_metrics.length > 0 && (
+                <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="success-metrics-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Success Metrics</CardTitle>
+                    <CardDescription>Indicators to assess performance and engagement</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {activity.success_metrics.map((metric, index) => (
+                        <li key={index} className="flex gap-3">
+                          <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0" />
+                          <span className="text-foreground/80">{metric}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {activity.reflection_question && (
+                <Card className="rounded-3xl border-border/50 shadow-sm bg-gradient-to-r from-accent/5 to-primary/5" data-testid="reflection-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Reflection Question</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-lg text-foreground/80 italic">"{activity.reflection_question}"</p>
+                  </CardContent>
+                </Card>
+              )}
 
               <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="outcomes-card">
                 <CardHeader>
