@@ -12,6 +12,37 @@ const Home = () => {
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
+          <div className="flex justify-end mb-6 gap-3">
+            {isAuthenticated ? (
+              <Button
+                data-testid="dashboard-btn"
+                onClick={() => navigate("/dashboard")}
+                className="rounded-full bg-secondary hover:bg-secondary/90 text-white"
+              >
+                Dashboard
+              </Button>
+            ) : (
+              <>
+                <Button
+                  data-testid="login-btn"
+                  variant="outline"
+                  onClick={() => navigate("/login")}
+                  className="rounded-full border-2 border-secondary text-secondary hover:bg-secondary hover:text-white"
+                >
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Login
+                </Button>
+                <Button
+                  data-testid="signup-btn"
+                  onClick={() => navigate("/signup")}
+                  className="rounded-full bg-primary hover:bg-primary/90"
+                >
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Sign Up
+                </Button>
+              </>
+            )}
+          </div>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
