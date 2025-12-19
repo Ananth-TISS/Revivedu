@@ -246,32 +246,48 @@ async def generate_activity_with_ai(input_data: ActivityInput) -> dict:
         intelligences_str = ", ".join(input_data.intelligences)
         tools_str = ", ".join(input_data.tools)
         
-        prompt = f"""Create a comprehensive, engaging learning activity for a child aged {input_data.age} focusing on these subjects: {subjects_str}. The activity should specifically target these Multiple Intelligence types: {intelligences_str} and use these materials: {tools_str} as the primary resources.
+        prompt = f"""As an expert in educational program design with specialized knowledge of NCF-SE 2023 framework and National Institute of Open Schooling (NIOS) curriculum standards, create a comprehensive, contextualized learning activity for a {input_data.age}-year-old gifted/homeschooled child in India.
 
-Design the activity to promote 21st century skills including critical thinking, creativity, collaboration, and communication, while incorporating social-emotional learning elements.
+**Context:**
+- Age: {input_data.age} years
+- Subjects: {subjects_str}
+- Multiple Intelligences (Howard Gardner): {intelligences_str}
+- Available Materials: {tools_str}
 
-Please include:
-1) Clear learning objectives
-2) Step-by-step instructions that are age-appropriate
-3) Estimated time to complete
-4) Ways to extend or modify the activity
-5) Discussion questions for reflection
-6) How this connects to real-world applications
+**Requirements:**
+Design an activity that:
+1. Aligns with NCF-SE 2023 framework and NIOS curriculum standards
+2. Promotes Multiple Intelligences development
+3. Develops 21st century skills (critical thinking, creativity, collaboration, communication)
+4. Incorporates Social and Emotional Learning (SEL) elements
+5. Is age-appropriate, engaging, and culturally relevant to Indian context
+6. Uses only the available materials at home
+7. Supports both gifted learners and homeschooling needs
 
-Make it practical, fun, and achievable with the available home resources.
-
-Respond in the following JSON format:
+**Required Format (respond ONLY with valid JSON):**
 {{
-  "title": "Activity Title",
-  "description": "Brief overview (2-3 sentences)",
-  "instructions": ["Step 1", "Step 2", ...],
-  "learning_outcomes": ["Outcome 1", "Outcome 2", ...],
-  "skills": ["Skill 1", "Skill 2", ...],
-  "estimated_time": "30-45 minutes",
-  "extensions": ["Extension 1", "Extension 2", ...],
-  "discussion_questions": ["Question 1", "Question 2", ...],
-  "real_world_connection": "How this connects to real life"
-}}"""
+  "title": "Concise, engaging activity name",
+  "objective": "Clear, measurable learning goals aligned with developmental needs and curricular standards",
+  "description": "Brief overview (2-3 sentences) summarizing purpose and context",
+  "expected_outcome": "Specific skills, knowledge, or attitudes the child will develop",
+  "materials_required": ["Material 1", "Material 2", ...],
+  "curricular_areas": {{
+    "ncf_se_2023": ["Relevant domain/area from NCF-SE 2023"],
+    "nios_subjects": ["Relevant NIOS subject alignment for grades 10/12"],
+    "learning_domains": ["Cognitive", "Affective", "Psychomotor", "Social-Emotional"]
+  }},
+  "instructions": ["Detailed Step 1", "Detailed Step 2", ...],
+  "success_metrics": ["Quantifiable indicator 1", "Observable behavior 2", ...],
+  "reflection_question": "Thought-provoking prompt for critical thinking and self-assessment",
+  "learning_outcomes": ["Specific learning outcome 1", "Specific learning outcome 2", ...],
+  "skills": ["21st century skill 1", "SEL competency 2", ...],
+  "estimated_time": "Duration range (e.g., 45-60 minutes)",
+  "extensions": ["Advanced challenge 1", "Alternative approach 2", ...],
+  "discussion_questions": ["Question for deeper reflection 1", "Question 2", ...],
+  "real_world_connection": "How this activity connects to real-world applications and Indian context"
+}}
+
+Make it pedagogically sound, differentiated, and holistic."""
         
         chat = LlmChat(
             api_key=emergent_key,
