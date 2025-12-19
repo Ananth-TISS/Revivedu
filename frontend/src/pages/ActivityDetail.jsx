@@ -166,11 +166,32 @@ const ActivityDetail = () => {
           <h1 className="text-4xl sm:text-5xl font-bold text-secondary mb-4">
             {activity.title}
           </h1>
+          
+          {activity.objective && (
+            <div className="bg-accent/10 border-l-4 border-accent p-4 rounded-lg mb-4">
+              <h3 className="font-bold text-accent-foreground mb-2">Objective</h3>
+              <p className="text-foreground/80">{activity.objective}</p>
+            </div>
+          )}
+          
           <p className="text-lg text-foreground/80 mb-4">{activity.description}</p>
-          <div className="flex flex-wrap gap-2">
+          
+          {activity.expected_outcome && (
+            <div className="bg-primary/10 border-l-4 border-primary p-4 rounded-lg mb-4">
+              <h3 className="font-bold text-primary mb-2">Expected Outcome</h3>
+              <p className="text-foreground/80">{activity.expected_outcome}</p>
+            </div>
+          )}
+          
+          <div className="flex flex-wrap gap-2 mb-4">
             <span className="px-4 py-2 bg-accent/20 text-accent-foreground rounded-full text-sm font-semibold">
               Age: {activity.age}
             </span>
+            {activity.estimated_time && (
+              <span className="px-4 py-2 bg-secondary/20 text-secondary rounded-full text-sm font-semibold">
+                Duration: {activity.estimated_time}
+              </span>
+            )}
             {activity.subjects.map((subject) => (
               <span key={subject} className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm">
                 {subject}
