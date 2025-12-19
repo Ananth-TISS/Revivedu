@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Loader2, CheckCircle2, Upload, Star } from "lucide-react";
+import { ArrowLeft, Loader2, CheckCircle2, Upload, Star, Lightbulb } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 
