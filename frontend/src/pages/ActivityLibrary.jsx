@@ -88,6 +88,11 @@ const ActivityLibrary = () => {
       filtered = filtered.filter(activity => activity.age === parseInt(ageFilter));
     }
 
+    // Child filter
+    if (childFilter) {
+      filtered = filtered.filter(activity => activity.child_id === childFilter);
+    }
+
     setFilteredActivities(filtered);
   };
 
