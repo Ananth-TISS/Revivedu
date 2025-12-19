@@ -80,8 +80,8 @@ const Home = () => {
             </div>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1594708767771-a7502209ff51?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwxfHxJbmRpYW4lMjBjaGlsZCUyMHNjaWVuY2UlMjBleHBlcmltZW50JTIwbGVhcm5pbmclMjBob21lfGVufDB8fHx8MTc2NjE0MjU1NHww&ixlib=rb-4.1.0&q=85"
-                alt="Indian children learning and playing"
+                src="https://images.unsplash.com/photo-1584376003963-e1aa9a61c0ac?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwxfHxoYXBweSUyMEluZGlhbiUyMGNoaWxkcmVuJTIwcGFyayUyMG91dGRvb3IlMjBsZWFybmluZyUyMGFjdGl2aXRpZXMlMjBzdW5saWdodHxlbnwwfHx8fDE3NjYxNDI3MTl8MA&ixlib=rb-4.1.0&q=85"
+                alt="Happy Indian children learning together in bright outdoor setting"
                 className="rounded-3xl shadow-pop w-full h-auto"
               />
             </div>
