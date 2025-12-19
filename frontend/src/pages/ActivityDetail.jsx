@@ -328,39 +328,90 @@ const ActivityDetail = () => {
                 </Card>
               )}
 
-              <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="outcomes-card">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-secondary">Learning Outcomes</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    {activity.learning_outcomes.map((outcome, index) => (
-                      <li key={index} className="flex gap-3">
-                        <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0" />
-                        <span className="text-foreground/80">{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              {activity.learning_outcomes && activity.learning_outcomes.length > 0 && (
+                <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="outcomes-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Additional Learning Outcomes</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {activity.learning_outcomes.map((outcome, index) => (
+                        <li key={index} className="flex gap-3">
+                          <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0" />
+                          <span className="text-foreground/80">{outcome}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
 
-              <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="skills-card">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-secondary">Skills Developed</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-3">
-                    {activity.skills.map((skill, index) => (
-                      <span
-                        key={index}
-                        className="px-6 py-3 bg-secondary/10 text-secondary rounded-full font-semibold"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              {activity.skills && activity.skills.length > 0 && (
+                <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="skills-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Skills Developed</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-3">
+                      {activity.skills.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="px-6 py-3 bg-secondary/10 text-secondary rounded-full font-semibold"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {activity.extensions && activity.extensions.length > 0 && (
+                <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="extensions-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Extensions & Modifications</CardTitle>
+                    <CardDescription>Ways to adapt or extend this activity</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {activity.extensions.map((extension, index) => (
+                        <li key={index} className="flex gap-3">
+                          <Lightbulb className="h-6 w-6 text-accent flex-shrink-0" />
+                          <span className="text-foreground/80">{extension}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {activity.discussion_questions && activity.discussion_questions.length > 0 && (
+                <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="discussion-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Discussion Questions</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {activity.discussion_questions.map((question, index) => (
+                        <li key={index} className="text-foreground/80">
+                          <span className="font-semibold text-primary">Q{index + 1}:</span> {question}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {activity.real_world_connection && (
+                <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="real-world-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Real-World Connection</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-foreground/80">{activity.real_world_connection}</p>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </TabsContent>
 
