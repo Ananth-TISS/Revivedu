@@ -168,7 +168,7 @@ const ActivityLibrary = () => {
                 <SelectValue placeholder="Filter by child" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All children</SelectItem>
+                <SelectItem value="all">All children</SelectItem>
                 {children.map((child) => (
                   <SelectItem key={child.id} value={child.id}>
                     {child.name}
