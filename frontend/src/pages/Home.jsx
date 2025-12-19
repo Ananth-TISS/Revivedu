@@ -195,6 +195,53 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Learning in Action Section */}
+      <div className="bg-card py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-secondary mb-8">
+            Learning in Action
+          </h2>
+          <p className="text-center text-foreground/80 text-lg mb-12 max-w-3xl mx-auto">
+            See how Revivedu transforms everyday moments into rich learning experiences for Indian children
+          </p>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="rounded-3xl overflow-hidden shadow-sm hover:shadow-pop transition-all duration-300">
+              <img
+                src="https://images.unsplash.com/photo-1757877203307-585dabb4e41a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwxfHxJbmRpYW4lMjBraWQlMjBlZHVjYXRpb25hbCUyMGFjdGl2aXR5JTIwcmVhZGluZyUyMHN0dWR5aW5nfGVufDB8fHx8MTc2NjE0MjU1N3ww&ixlib=rb-4.1.0&q=85"
+                alt="Indian child reading and learning"
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-6 bg-white">
+                <h3 className="text-xl font-bold text-secondary mb-2">Reading & Exploration</h3>
+                <p className="text-foreground/70">Building linguistic intelligence through stories and books</p>
+              </div>
+            </div>
+            <div className="rounded-3xl overflow-hidden shadow-sm hover:shadow-pop transition-all duration-300">
+              <img
+                src="https://images.unsplash.com/photo-1677132533191-5f8f337a54e3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHw0fHxJbmRpYW4lMjBjaGlsZHJlbiUyMGNyZWF0aXZlJTIwYWN0aXZpdHklMjBhcnQlMjBjcmFmdCUyMHBsYXl8ZW58MHx8fHwxNzY2MTQyNTU1fDA&ixlib=rb-4.1.0&q=85"
+                alt="Indian children doing creative activities"
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-6 bg-white">
+                <h3 className="text-xl font-bold text-secondary mb-2">Creative Expression</h3>
+                <p className="text-foreground/70">Nurturing artistic and spatial intelligence through hands-on activities</p>
+              </div>
+            </div>
+            <div className="rounded-3xl overflow-hidden shadow-sm hover:shadow-pop transition-all duration-300">
+              <img
+                src="https://images.unsplash.com/photo-1642140027869-03591a109d61?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwyfHxJbmRpYW4lMjBjaGlsZCUyMHNjaWVuY2UlMjBleHBlcmltZW50JTIwbGVhcm5pbmclMjBob21lfGVufDB8fHx8MTc2NjE0MjU1NHww&ixlib=rb-4.1.0&q=85"
+                alt="Indian children collaborating"
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-6 bg-white">
+                <h3 className="text-xl font-bold text-secondary mb-2">Collaborative Learning</h3>
+                <p className="text-foreground/70">Developing interpersonal skills through group activities</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Features Section */}
       <div className="bg-muted py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
