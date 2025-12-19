@@ -84,7 +84,7 @@ const ActivityLibrary = () => {
     }
 
     // Age filter
-    if (ageFilter) {
+    if (ageFilter && ageFilter !== "all") {
       filtered = filtered.filter(activity => activity.age === parseInt(ageFilter));
     }
 
