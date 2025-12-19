@@ -144,7 +144,7 @@ const ActivityGenerator = () => {
         subjects: formData.subjects,
         intelligences: formData.intelligences,
         tools: formData.tools,
-        child_id: selectedChildId || null
+        child_id: selectedChildId && selectedChildId !== "none" ? selectedChildId : null
       });
       
       toast.success("Activity generated successfully!");
