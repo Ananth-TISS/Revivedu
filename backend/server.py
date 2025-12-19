@@ -140,8 +140,8 @@ class ActivityResponse(BaseModel):
     learning_outcomes: List[str]
     skills: List[str]
     estimated_time: Optional[str] = None
-    extensions: List[str]
-    discussion_questions: List[str]
+    extensions: List[str] = []
+    discussion_questions: List[str] = []
     real_world_connection: Optional[str] = None
     created_at: str
 
