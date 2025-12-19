@@ -89,7 +89,7 @@ const ActivityLibrary = () => {
     }
 
     // Child filter
-    if (childFilter) {
+    if (childFilter && childFilter !== "all") {
       filtered = filtered.filter(activity => activity.child_id === childFilter);
     }
 
