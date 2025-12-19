@@ -25,16 +25,42 @@ const ActivityLibrary = () => {
   const [childFilter, setChildFilter] = useState(searchParams.get("childId") || "");
 
   useEffect(() => {
+    if (isAuthenticated) {
+      fetchChildren();
+    }
     fetchActivities();
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     filterActivities();
-  }, [activities, searchTerm, ageFilter]);
+  }, [activities, searchTerm, ageFilter, childFilter]);
+
+  const fetchChildren = async () => {
+    try {
+      const response = await axios.get(`${API}/children`, {
+        headers: getAuthHeaders()
+      });
+      setChildren(response.data);
+    } catch (error) {
+      console.error("Error fetching children:", error);
+    }
+  };
 
   const fetchActivities = async () => {
     try {
-      const response = await axios.get(`${API}/activities`);
+      let url = `${API}/activities`;
+      const params = new URLSearchParams();
+      
+      const childId = searchParams.get("childId");
+      if (childId) {
+        params.append("child_id", childId);
+      }
+      
+      if (params.toString()) {
+        url += `?${params.toString()}`;
+      }
+      
+      const response = await axios.get(url);
       setActivities(response.data);
       setFilteredActivities(response.data);
     } catch (error) {
