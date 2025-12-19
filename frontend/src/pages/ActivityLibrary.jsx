@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Loader2, Search, BookOpen, Sparkles } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { toast } from "sonner";
 
@@ -13,11 +14,15 @@ const API = `${BACKEND_URL}/api`;
 
 const ActivityLibrary = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { isAuthenticated, getAuthHeaders } = useAuth();
   const [loading, setLoading] = useState(true);
   const [activities, setActivities] = useState([]);
   const [filteredActivities, setFilteredActivities] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [ageFilter, setAgeFilter] = useState("");
+  const [children, setChildren] = useState([]);
+  const [childFilter, setChildFilter] = useState(searchParams.get("childId") || "");
 
   useEffect(() => {
     fetchActivities();
