@@ -181,6 +181,31 @@ const ActivityGenerator = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="space-y-8">
+            {/* Child Selection (for logged-in users) */}
+            {isAuthenticated && children.length > 0 && (
+              <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="child-selection-card">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-secondary">Select Child (Optional)</CardTitle>
+                  <CardDescription>Link this activity to a child profile for tracking</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Select value={selectedChildId} onValueChange={setSelectedChildId}>
+                    <SelectTrigger data-testid="child-select" className="h-12 rounded-xl border-2">
+                      <SelectValue placeholder="Select a child or leave blank" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">No specific child</SelectItem>
+                      {children.map((child) => (
+                        <SelectItem key={child.id} value={child.id}>
+                          {child.name} (Age {child.age})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </CardContent>
+              </Card>
+            )}
+
             {/* Age Selection */}
             <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="age-selection-card">
               <CardHeader>
