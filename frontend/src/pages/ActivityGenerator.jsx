@@ -143,7 +143,8 @@ const ActivityGenerator = () => {
         age: parseInt(formData.age),
         subjects: formData.subjects,
         intelligences: formData.intelligences,
-        tools: formData.tools
+        tools: formData.tools,
+        child_id: selectedChildId || null
       });
       
       toast.success("Activity generated successfully!");
