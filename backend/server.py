@@ -141,10 +141,16 @@ class ActivityResponse(BaseModel):
     intelligences: List[str]
     tools: List[str]
     title: str
+    objective: str
     description: str
+    expected_outcome: str
+    materials_required: List[str]
+    curricular_areas: dict
     instructions: List[str]
-    learning_outcomes: List[str]
-    skills: List[str]
+    success_metrics: List[str]
+    reflection_question: str
+    learning_outcomes: List[str] = []
+    skills: List[str] = []
     estimated_time: Optional[str] = None
     extensions: List[str] = []
     discussion_questions: List[str] = []
