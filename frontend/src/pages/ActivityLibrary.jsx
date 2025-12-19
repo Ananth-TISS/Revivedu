@@ -137,7 +137,7 @@ const ActivityLibrary = () => {
         </div>
 
         {/* Filters */}
-        <div className="mb-8 grid sm:grid-cols-2 gap-4" data-testid="filter-section">
+        <div className="mb-8 grid sm:grid-cols-3 gap-4" data-testid="filter-section">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-foreground/40" />
             <Input
@@ -162,6 +162,21 @@ const ActivityLibrary = () => {
               ))}
             </SelectContent>
           </Select>
+          {isAuthenticated && children.length > 0 && (
+            <Select value={childFilter} onValueChange={setChildFilter}>
+              <SelectTrigger data-testid="child-filter" className="h-12 rounded-xl border-2">
+                <SelectValue placeholder="Filter by child" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All children</SelectItem>
+                {children.map((child) => (
+                  <SelectItem key={child.id} value={child.id}>
+                    {child.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
 
         {/* Activities Grid */}
