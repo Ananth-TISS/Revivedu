@@ -76,6 +76,7 @@ const ActivityDetail = () => {
     try {
       await axios.post(`${API}/feedback`, {
         activity_id: id,
+        child_id: activity?.child_id || null,
         ...feedbackForm
       });
       toast.success("Feedback submitted successfully!");
