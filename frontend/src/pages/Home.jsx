@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Sparkles, BookOpen, Users, Lightbulb, Target, Award, Brain } from "lucide-react";
+import { Sparkles, BookOpen, Users, Lightbulb, Target, Award, Brain, LogIn, UserPlus } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="min-h-screen bg-background">
