@@ -107,6 +107,9 @@ const ActivityDetail = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("activity_id", id);
+      if (activity?.child_id) {
+        formData.append("child_id", activity.child_id);
+      }
       
       await axios.post(`${API}/artifacts`, formData, {
         headers: {
