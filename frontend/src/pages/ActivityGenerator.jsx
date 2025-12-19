@@ -194,7 +194,7 @@ const ActivityGenerator = () => {
                       <SelectValue placeholder="Select a child or leave blank" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">No specific child</SelectItem>
+                      <SelectItem value="none">No specific child</SelectItem>
                       {children.map((child) => (
                         <SelectItem key={child.id} value={child.id}>
                           {child.name} (Age {child.age})
