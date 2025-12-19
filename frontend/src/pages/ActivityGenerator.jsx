@@ -52,13 +52,42 @@ const TOOLS = [
 
 const ActivityGenerator = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { isAuthenticated, getAuthHeaders } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [children, setChildren] = useState([]);
+  const [selectedChildId, setSelectedChildId] = useState(searchParams.get("childId") || "");
   const [formData, setFormData] = useState({
     age: "",
     subjects: [],
     intelligences: [],
     tools: []
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchChildren();
+    }
+  }, [isAuthenticated]);
+
+  const fetchChildren = async () => {
+    try {
+      const response = await axios.get(`${API}/children`, {
+        headers: getAuthHeaders()
+      });
+      setChildren(response.data);
+      
+      const childId = searchParams.get("childId");
+      if (childId) {
+        const child = response.data.find(c => c.id === childId);
+        if (child) {
+          setFormData(prev => ({ ...prev, age: child.age.toString() }));
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching children:", error);
+    }
+  };
 
   const handleSubjectToggle = (subject) => {
     setFormData(prev => ({
