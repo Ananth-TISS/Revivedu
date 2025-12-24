@@ -67,6 +67,39 @@ const ActivityDetail = () => {
     }
   };
 
+  const generateAudio = async () => {
+    setLoadingAudio(true);
+    try {
+      const response = await axios.get(`${API}/activities/${id}/audio`);
+      setAudioData(response.data);
+      toast.success("Audio summary generated!");
+    } catch (error) {
+      console.error("Error generating audio:", error);
+      toast.error("Failed to generate audio summary");
+    } finally {
+      setLoadingAudio(false);
+    }
+  };
+
+  const handlePlayPause = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleSpeedChange = (speed) => {
+    setPlaybackSpeed(speed);
+    if (audioRef.current) {
+      audioRef.current.playbackRate = speed;
+    }
+  };
+
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
     
