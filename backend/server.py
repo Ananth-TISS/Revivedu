@@ -599,7 +599,71 @@ async def upload_artifact(
         logger.error(f"Error uploading artifact: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@api_router.get("/artifacts/{activity_id}", response_model=List[ArtifactResponse])
+@api_router.get("/activities/{activity_id}/audio")
+async def generate_activity_audio(activity_id: str):
+    try:
+        activity = await db.activities.find_one({"id": activity_id}, {"_id": 0})
+        if not activity:
+            raise HTTPException(status_code=404, detail="Activity not found")
+        
+        # Create concise summary for audio
+        summary_text = f"Activity: {activity['title']}. "
+        
+        if activity.get('objective'):
+            summary_text += f"Objective: {activity['objective']}. "
+        
+        summary_text += f"Description: {activity['description']}. "
+        
+        if activity.get('estimated_time'):
+            summary_text += f"Estimated time: {activity['estimated_time']}. "
+        
+        # Add materials
+        if activity.get('materials_required') and len(activity['materials_required']) > 0:
+            materials = ", ".join(activity['materials_required'][:5])
+            summary_text += f"Materials needed: {materials}. "
+        
+        # Add brief instructions overview
+        if len(activity['instructions']) > 0:
+            summary_text += f"This activity has {len(activity['instructions'])} steps. "
+            if len(activity['instructions']) <= 3:
+                summary_text += "Steps: " + ". ".join(activity['instructions'][:3]) + ". "
+            else:
+                summary_text += f"Key steps include: {activity['instructions'][0]}, and {activity['instructions'][1]}. "
+        
+        # Add expected outcome
+        if activity.get('expected_outcome'):
+            summary_text += f"Expected outcome: {activity['expected_outcome']}. "
+        
+        # Limit to 4096 characters for TTS API
+        if len(summary_text) > 4000:
+            summary_text = summary_text[:3997] + "..."
+        
+        # Generate audio using OpenAI TTS
+        emergent_key = os.environ.get('EMERGENT_LLM_KEY')
+        tts = OpenAITextToSpeech(api_key=emergent_key)
+        
+        audio_bytes = await tts.generate_speech(
+            text=summary_text,
+            model="tts-1",
+            voice="nova",  # Clear, energetic voice suitable for educational content
+            speed=1.0
+        )
+        
+        # Return audio as base64 for easy frontend consumption
+        import base64
+        audio_base64 = base64.b64encode(audio_bytes).decode('utf-8')
+        
+        return {
+            "audio_base64": audio_base64,
+            "text": summary_text,
+            "format": "mp3"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error generating audio: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate audio: {str(e)}")
 async def get_artifacts(activity_id: str):
     try:
         artifacts = await db.artifacts.find({"activity_id": activity_id}, {"_id": 0}).to_list(100)
