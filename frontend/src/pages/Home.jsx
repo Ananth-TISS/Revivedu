@@ -289,15 +289,27 @@ const Home = () => {
           <p className="text-lg text-foreground/80 mb-8">
             Create your first personalized learning activity in minutes, tailored to your child's unique intelligence profile.
           </p>
-          <Button
-            data-testid="cta-generate-btn"
-            size="lg"
-            className="rounded-full px-10 py-6 text-lg font-bold shadow-pop hover:shadow-pop-hover transform hover:-translate-y-1 transition-all duration-300 bg-primary hover:bg-primary/90"
-            onClick={() => navigate("/generate")}
-          >
-            <Sparkles className="mr-2 h-5 w-5" />
-            Generate Your First Activity
-          </Button>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button
+              data-testid="cta-generate-btn"
+              size="lg"
+              className="rounded-full px-10 py-6 text-lg font-bold shadow-pop hover:shadow-pop-hover transform hover:-translate-y-1 transition-all duration-300 bg-primary hover:bg-primary/90"
+              onClick={() => navigate("/generate")}
+            >
+              <Sparkles className="mr-2 h-5 w-5" />
+              Generate Your First Activity
+            </Button>
+            <Button
+              data-testid="guide-btn"
+              size="lg"
+              variant="outline"
+              className="rounded-full px-10 py-6 text-lg font-bold border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-all duration-300"
+              onClick={() => navigate("/guide")}
+            >
+              <BookOpen className="mr-2 h-5 w-5" />
+              Parent & Learner Guide
+            </Button>
+          </div>
         </div>
       </div>
     </div>
