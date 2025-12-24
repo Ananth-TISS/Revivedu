@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useAuth } from "@/context/AuthContext";
-import { ArrowLeft, Loader2, TrendingUp, Award, Lightbulb } from "lucide-react";
+import { ArrowLeft, Loader2, TrendingUp, Award, Lightbulb, AlertCircle, BookOpen } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 
