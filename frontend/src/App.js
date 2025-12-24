@@ -9,6 +9,7 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ExposureReport from "./pages/dashboard/ExposureReport";
+import Guide from "./pages/Guide";
 import { Toaster } from "@/components/ui/sonner";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/library" element={<ActivityLibrary />} />
             <Route path="/activity/:id" element={<ActivityDetail />} />
             <Route path="/report/:childId" element={<ExposureReport />} />
+            <Route path="/guide" element={<Guide />} />
           </Routes>
         </BrowserRouter>
         <Toaster position="top-center" richColors />
