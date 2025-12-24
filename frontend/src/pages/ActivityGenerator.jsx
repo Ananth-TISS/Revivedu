@@ -261,21 +261,33 @@ const ActivityGenerator = () => {
                 <CardDescription>Select intelligences to engage (choose at least one)</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {INTELLIGENCES.map((intelligence) => (
-                    <div key={intelligence} className="flex items-center space-x-3">
-                      <Checkbox
-                        data-testid={`intelligence-${intelligence.toLowerCase().replace(/\s+/g, '-')}`}
-                        id={`intelligence-${intelligence}`}
-                        checked={formData.intelligences.includes(intelligence)}
-                        onCheckedChange={() => handleIntelligenceToggle(intelligence)}
-                      />
-                      <Label htmlFor={`intelligence-${intelligence}`} className="cursor-pointer">
-                        {intelligence}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
+                <TooltipProvider>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {INTELLIGENCES.map((intelligence) => (
+                      <div key={intelligence.name} className="flex items-center space-x-3">
+                        <Checkbox
+                          data-testid={`intelligence-${intelligence.name.toLowerCase().replace(/\s+/g, '-')}`}
+                          id={`intelligence-${intelligence.name}`}
+                          checked={formData.intelligences.includes(intelligence.name)}
+                          onCheckedChange={() => handleIntelligenceToggle(intelligence)}
+                        />
+                        <div className="flex items-center space-x-2">
+                          <Label htmlFor={`intelligence-${intelligence.name}`} className="cursor-pointer">
+                            {intelligence.name}
+                          </Label>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-xs">
+                              <p>{intelligence.description}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </TooltipProvider>
               </CardContent>
             </Card>
 
