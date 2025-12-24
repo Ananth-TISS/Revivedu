@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Brain, Lightbulb, Users, Music, Palette, Calculator, TreePine, User, MessageCircle, AlertCircle, ExternalLink, Info } from "lucide-react";
+import { ArrowLeft, Brain, Lightbulb, Users, Music, Palette, Calculator, TreePine, User, MessageCircle, AlertCircle, ExternalLink, Info, CheckCircle2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const Guide = () => {
