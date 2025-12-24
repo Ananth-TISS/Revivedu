@@ -102,9 +102,9 @@ const ActivityGenerator = () => {
   const handleIntelligenceToggle = (intelligence) => {
     setFormData(prev => ({
       ...prev,
-      intelligences: prev.intelligences.includes(intelligence)
-        ? prev.intelligences.filter(i => i !== intelligence)
-        : [...prev.intelligences, intelligence]
+      intelligences: prev.intelligences.includes(intelligence.name)
+        ? prev.intelligences.filter(i => i !== intelligence.name)
+        : [...prev.intelligences, intelligence.name]
     }));
   };
 
