@@ -39,7 +39,7 @@ const ActivityDetail = () => {
   const [loadingAudio, setLoadingAudio] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useState(null);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     fetchActivity();
