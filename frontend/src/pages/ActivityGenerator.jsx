@@ -28,14 +28,14 @@ const SUBJECTS = [
 ];
 
 const INTELLIGENCES = [
-  "Linguistic",
-  "Logical-Mathematical",
-  "Spatial",
-  "Bodily-Kinesthetic",
-  "Musical",
-  "Interpersonal",
-  "Intrapersonal",
-  "Naturalistic"
+  { name: "Linguistic", description: "Ability with words - reading, writing, speaking. Good for storytelling and discussions." },
+  { name: "Logical-Mathematical", description: "Thinking in patterns and sequences. Good for puzzles, experiments, and problem-solving." },
+  { name: "Spatial", description: "Thinking in pictures and 3D. Good for drawing, building, and visual learning." },
+  { name: "Bodily-Kinesthetic", description: "Learning through movement and touch. Good for hands-on activities and sports." },
+  { name: "Musical", description: "Sensitivity to rhythm, pitch, and melody. Learning is enhanced with music." },
+  { name: "Interpersonal", description: "Understanding and working with others. Good for group activities and collaboration." },
+  { name: "Intrapersonal", description: "Self-awareness and reflection. Good for independent work and goal-setting." },
+  { name: "Naturalistic", description: "Connecting with nature and recognizing patterns in the natural world." }
 ];
 
 const TOOLS = [
