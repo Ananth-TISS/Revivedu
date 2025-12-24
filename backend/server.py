@@ -295,7 +295,7 @@ Make it pedagogically sound, differentiated, and holistic."""
             session_id=f"activity_{uuid.uuid4()}",
             system_message="You are an expert in educational program design with specialized knowledge of NCF-SE 2023 framework, National Institute of Open Schooling (NIOS) curriculum standards, NEP 2020, and Howard Gardner's Multiple Intelligences theory. You design pedagogically sound, differentiated learning activities for gifted and homeschooled children in India, ensuring alignment with national curricula while promoting holistic development. Always respond with valid JSON only."
         )
-        chat.with_model("openai", "gpt-5.1")
+        chat.with_model("openai", "gpt-4o")
         
         user_message = UserMessage(text=prompt)
         response = await chat.send_message(user_message)
