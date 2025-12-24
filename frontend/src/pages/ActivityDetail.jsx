@@ -203,6 +203,77 @@ const ActivityDetail = () => {
         </Button>
 
         <div className="mb-8" data-testid="activity-header">
+          <div className="flex items-start justify-between mb-4">
+            <h1 className="text-4xl sm:text-5xl font-bold text-secondary flex-1">
+              {activity.title}
+            </h1>
+            <Button
+              data-testid="generate-audio-btn"
+              onClick={generateAudio}
+              disabled={loadingAudio}
+              variant="outline"
+              className="rounded-full border-2 border-accent text-accent hover:bg-accent hover:text-white"
+            >
+              {loadingAudio ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Volume2 className="mr-2 h-4 w-4" />
+                  Listen to Summary
+                </>
+              )}
+            </Button>
+          </div>
+
+          {/* Audio Player */}
+          {audioData && (
+            <Card className="rounded-3xl border-accent/50 bg-accent/5 shadow-sm mb-4" data-testid="audio-player">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <Button
+                    data-testid="play-pause-btn"
+                    onClick={handlePlayPause}
+                    size="lg"
+                    className="rounded-full bg-accent hover:bg-accent/90"
+                  >
+                    {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
+                  </Button>
+                  
+                  <div className="flex-1">
+                    <p className="text-sm text-foreground/60 mb-2">Activity Audio Summary</p>
+                    <audio
+                      ref={audioRef}
+                      src={`data:audio/mp3;base64,${audioData.audio_base64}`}
+                      onEnded={() => setIsPlaying(false)}
+                      onPlay={() => setIsPlaying(true)}
+                      onPause={() => setIsPlaying(false)}
+                      className="w-full"
+                      controls
+                    />
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <p className="text-sm text-foreground/60 mr-2">Speed:</p>
+                    {[1.0, 1.5, 2.0].map((speed) => (
+                      <Button
+                        key={speed}
+                        data-testid={`speed-${speed}x`}
+                        onClick={() => handleSpeedChange(speed)}
+                        variant={playbackSpeed === speed ? "default" : "outline"}
+                        size="sm"
+                        className="rounded-full"
+                      >
+                        {speed}×
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
           <h1 className="text-4xl sm:text-5xl font-bold text-secondary mb-4">
             {activity.title}
           </h1>
