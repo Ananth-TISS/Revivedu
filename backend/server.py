@@ -12,6 +12,7 @@ import uuid
 from datetime import datetime, timezone, timedelta
 import base64
 from emergentintegrations.llm.chat import LlmChat, UserMessage
+from emergentintegrations.llm.openai import OpenAITextToSpeech
 import jwt
 from passlib.context import CryptContext
 
