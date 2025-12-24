@@ -77,8 +77,29 @@ const ExposureReport = () => {
             {report.child_name}'s Exposure Report
           </h1>
           <p className="text-lg text-foreground/80">
-            Comprehensive analysis of learning activities and intelligence development
+            Summary of learning activities and participation
           </p>
+        </div>
+
+        {/* Disclaimer Banner */}
+        <Alert className="mb-8 border-accent bg-accent/10" data-testid="report-disclaimer">
+          <AlertCircle className="h-5 w-5 text-accent" />
+          <AlertTitle className="text-lg font-bold text-accent-foreground">This is Not an Assessment</AlertTitle>
+          <AlertDescription className="text-foreground/80">
+            This report reflects the activities your child has engaged with and the feedback you have provided. <strong>It is not a diagnostic test, assessment, or measure of intelligence.</strong> It simply shows exposure to different learning experiences. Every child develops at their own pace in their own unique way.
+          </AlertDescription>
+        </Alert>
+
+        <div className="flex justify-end mb-6">
+          <Button
+            data-testid="view-guide-btn"
+            variant="outline"
+            onClick={() => navigate("/guide")}
+            className="rounded-full border-2 border-secondary text-secondary hover:bg-secondary hover:text-white"
+          >
+            <BookOpen className="mr-2 h-4 w-4" />
+            Read Parent Guide
+          </Button>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">
