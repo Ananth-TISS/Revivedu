@@ -33,6 +33,13 @@ const ActivityDetail = () => {
   // Artifact upload
   const [uploadingArtifact, setUploadingArtifact] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  
+  // Audio state
+  const [audioData, setAudioData] = useState(null);
+  const [loadingAudio, setLoadingAudio] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useState(null);
 
   useEffect(() => {
     fetchActivity();
