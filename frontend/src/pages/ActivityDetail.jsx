@@ -242,17 +242,15 @@ const ActivityDetail = () => {
         child_id: activity?.child_id || null,
         rating: feedbackForm.likert_rating,
         experience: feedbackForm.experience,
-        outcomes: feedbackForm.outcomes || feedbackForm.outcomes_achieved.join(", "),
-        suggestions: feedbackForm.suggestions,
+        outcomes: feedbackForm.outcomes_achieved.join(", "),
+        suggestions: feedbackForm.additional_comments,
         completion_status: feedbackForm.completion_status,
         outcomes_achieved: feedbackForm.outcomes_achieved
       });
       toast.success("Feedback submitted successfully!");
       setFeedbackForm({
-        rating: 0,
         experience: "",
-        outcomes: "",
-        suggestions: "",
+        additional_comments: "",
         completion_status: "",
         likert_rating: 0,
         outcomes_achieved: []
