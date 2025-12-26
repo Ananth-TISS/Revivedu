@@ -101,3 +101,161 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: Platform Enhancement Specification - Implement comprehensive UI/UX improvements including navigation tweaks, dashboard enhancements with calendar/streak widget, activity page features (difficulty selector, print/download, rename), and enhanced feedback mechanism.
+
+backend:
+  - task: "Dashboard Stats API"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added GET /api/dashboard/stats endpoint returning total_activities, total_artifacts, total_feedbacks, activity_dates, current_streak, longest_streak"
+
+  - task: "Activity Update API (PATCH)"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added PATCH /api/activities/{id} endpoint for updating activity title"
+
+  - task: "Difficulty Parameter in Activity Generation"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added difficulty field to ActivityInput, Activity, ActivityResponse models. Updated AI prompt to include difficulty guidance."
+
+  - task: "Enhanced Feedback Fields"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added completion_status and outcomes_achieved fields to Feedback and FeedbackInput models"
+
+frontend:
+  - task: "Persistent Navigation Header"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/Header.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created new Header.jsx component with Home icon, Dashboard, Generate Activity, Library, Guide links. Shows for logged-in users only."
+
+  - task: "Dashboard Calendar/Streak Widget"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/dashboard/Dashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added ActivityCalendar component with full month view. Added streak display. Added summary stats cards (activities, artifacts, streaks)."
+
+  - task: "Difficulty Selector in Activity Generator"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/ActivityGenerator.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added difficulty selector UI with Easy/Medium/Difficult options with tooltips. Default is Medium."
+
+  - task: "Activity Detail - Rename Feature"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/ActivityDetail.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added inline title edit with save/cancel buttons. Calls PATCH /api/activities/{id} to save."
+
+  - task: "Activity Detail - Print/Download PDF"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/ActivityDetail.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added Print and Download PDF buttons. Download opens new window with formatted activity content for printing to PDF."
+
+  - task: "Enhanced Feedback Tab"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/ActivityDetail.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Renamed tab to 'Activity Feedback & Learner Engagement'. Added completion status selector, 1-5 Likert scale, learning outcomes checklist."
+
+  - task: "Artifacts Tab Rename"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/ActivityDetail.jsx"
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Changed 'Artifacts' to 'What did they make?'"
+
+metadata:
+  created_by: "main_agent"
+  version: "2.0"
+  test_sequence: 1
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Dashboard Stats API"
+    - "Difficulty Selector in Activity Generator"
+    - "Activity Detail - Rename Feature"
+    - "Enhanced Feedback Tab"
+    - "Persistent Navigation Header"
+    - "Dashboard Calendar/Streak Widget"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Implemented Platform Enhancement Specification features: 1) Persistent navigation header with Home icon after login, 2) Dashboard with calendar/streak widget and stats summary, 3) Difficulty selector (Easy/Medium/Difficult) in Activity Generator, 4) Activity rename, print, download PDF features, 5) Enhanced feedback tab with completion status, Likert scale, and learning outcomes checklist. All backend APIs updated. Please test all new features thoroughly."
