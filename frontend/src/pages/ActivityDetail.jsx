@@ -341,51 +341,12 @@ const ActivityDetail = () => {
         </Button>
 
         <div className="mb-8" data-testid="activity-header">
-          {/* Title with Edit */}
+          {/* Title */}
           <div className="flex items-start justify-between mb-4 gap-4">
             <div className="flex-1">
-              {editingTitle ? (
-                <div className="flex items-center gap-2">
-                  <Input
-                    value={newTitle}
-                    onChange={(e) => setNewTitle(e.target.value)}
-                    className="text-2xl font-bold h-auto py-2 rounded-xl"
-                    data-testid="edit-title-input"
-                  />
-                  <Button 
-                    onClick={handleSaveTitle} 
-                    disabled={savingTitle}
-                    size="sm"
-                    className="rounded-full"
-                    data-testid="save-title-btn"
-                  >
-                    {savingTitle ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                  </Button>
-                  <Button 
-                    onClick={() => { setEditingTitle(false); setNewTitle(activity.title); }} 
-                    size="sm"
-                    variant="ghost"
-                    className="rounded-full"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <h1 className="text-4xl sm:text-5xl font-bold text-secondary">
-                    {activity.title}
-                  </h1>
-                  <Button 
-                    onClick={() => setEditingTitle(true)} 
-                    size="sm"
-                    variant="ghost"
-                    className="rounded-full print:hidden"
-                    data-testid="edit-title-btn"
-                  >
-                    <Edit2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
+              <h1 className="text-4xl sm:text-5xl font-bold text-secondary">
+                {activity.title}
+              </h1>
             </div>
             
             {/* Action Buttons */}
