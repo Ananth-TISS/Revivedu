@@ -8,8 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ArrowLeft, Loader2, CheckCircle2, Upload, Star, Lightbulb, Volume2, Play, Pause, Printer, Download, Edit2, Save } from "lucide-react";
+import { ArrowLeft, Loader2, CheckCircle2, Upload, Lightbulb, Volume2, Play, Pause, Printer, Download } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 
@@ -24,17 +23,10 @@ const ActivityDetail = () => {
   const [activeTab, setActiveTab] = useState("activity");
   const [artifacts, setArtifacts] = useState([]);
   
-  // Activity name edit
-  const [editingTitle, setEditingTitle] = useState(false);
-  const [newTitle, setNewTitle] = useState("");
-  const [savingTitle, setSavingTitle] = useState(false);
-  
   // Enhanced Feedback form with Likert scale and learning outcomes checklist
   const [feedbackForm, setFeedbackForm] = useState({
-    rating: 0,
     experience: "",
-    outcomes: "",
-    suggestions: "",
+    additional_comments: "",
     completion_status: "",
     likert_rating: 0,
     outcomes_achieved: []
