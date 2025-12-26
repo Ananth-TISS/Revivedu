@@ -565,6 +565,35 @@ async def get_activity(activity_id: str):
         logger.error(f"Error fetching activity: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+class ActivityUpdateInput(BaseModel):
+    title: Optional[str] = None
+
+@api_router.patch("/activities/{activity_id}", response_model=ActivityResponse)
+async def update_activity(activity_id: str, update_data: ActivityUpdateInput):
+    try:
+        activity = await db.activities.find_one({"id": activity_id}, {"_id": 0})
+        if not activity:
+            raise HTTPException(status_code=404, detail="Activity not found")
+        
+        update_fields = {}
+        if update_data.title is not None:
+            update_fields["title"] = update_data.title
+        
+        if update_fields:
+            await db.activities.update_one(
+                {"id": activity_id},
+                {"$set": update_fields}
+            )
+        
+        updated_activity = await db.activities.find_one({"id": activity_id}, {"_id": 0})
+        return ActivityResponse(**updated_activity)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating activity: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/feedback")
 async def submit_feedback(feedback_input: FeedbackInput):
     try:
