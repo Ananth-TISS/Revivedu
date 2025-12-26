@@ -117,6 +117,7 @@ class Activity(BaseModel):
     subjects: List[str]
     intelligences: List[str]
     tools: List[str]
+    difficulty: str = "medium"
     title: str
     objective: str
     description: str
