@@ -97,7 +97,7 @@ const Home = () => {
           </h2>
           <div className="max-w-4xl mx-auto space-y-6 text-foreground/80 text-base sm:text-lg">
             <p>
-              The Indian education system currently faces a significant gap in addressing the specialized needs of homeschooled children and gifted learners recognized under NEP 2020. Both groups require educational approaches that move beyond standardized content to embrace individualized learning.
+              The Indian education system currently faces a significant gap in addressing the specialized needs of <strong>homeschooled children</strong> and <strong>gifted learners</strong> recognized under NEP 2020. Both groups require educational approaches that move beyond standardized content to embrace individualized learning.
             </p>
             <div className="grid md:grid-cols-2 gap-6 my-8">
               <div className="bg-card rounded-3xl p-6 shadow-sm">
