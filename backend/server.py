@@ -664,6 +664,8 @@ async def generate_activity_audio(activity_id: str):
     except Exception as e:
         logger.error(f"Error generating audio: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to generate audio: {str(e)}")
+
+@api_router.get("/artifacts/{activity_id}")
 async def get_artifacts(activity_id: str):
     try:
         artifacts = await db.artifacts.find({"activity_id": activity_id}, {"_id": 0}).to_list(100)
@@ -671,6 +673,98 @@ async def get_artifacts(activity_id: str):
         
     except Exception as e:
         logger.error(f"Error fetching artifacts: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============ Dashboard Stats Route ============
+class DashboardStats(BaseModel):
+    total_activities: int
+    total_artifacts: int
+    total_feedbacks: int
+    activity_dates: List[str]
+    current_streak: int
+    longest_streak: int
+
+@api_router.get("/dashboard/stats", response_model=DashboardStats)
+async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        # Get all children for this user
+        children = await db.children.find({"user_id": current_user["id"]}, {"_id": 0}).to_list(100)
+        child_ids = [child["id"] for child in children]
+        
+        # Get activities for all children
+        activities = await db.activities.find({"child_id": {"$in": child_ids}}, {"_id": 0}).to_list(1000)
+        
+        # Get artifacts count
+        artifacts = await db.artifacts.find({"child_id": {"$in": child_ids}}, {"_id": 0}).to_list(1000)
+        
+        # Get feedbacks count
+        feedbacks = await db.feedbacks.find({"child_id": {"$in": child_ids}}, {"_id": 0}).to_list(1000)
+        
+        # Extract activity dates (just the date part)
+        activity_dates = []
+        for activity in activities:
+            created_at = activity.get("created_at", "")
+            if created_at:
+                # Handle both datetime object and string
+                if isinstance(created_at, str):
+                    date_str = created_at.split("T")[0]
+                else:
+                    date_str = created_at.strftime("%Y-%m-%d")
+                activity_dates.append(date_str)
+        
+        # Calculate streaks
+        unique_dates = sorted(set(activity_dates), reverse=True)
+        current_streak = 0
+        longest_streak = 0
+        
+        if unique_dates:
+            today = datetime.now(timezone.utc).date()
+            
+            # Check current streak
+            temp_streak = 0
+            for i, date_str in enumerate(unique_dates):
+                activity_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                expected_date = today - timedelta(days=i)
+                
+                if activity_date == expected_date:
+                    temp_streak += 1
+                elif i == 0 and activity_date == today - timedelta(days=1):
+                    # Allow for yesterday
+                    temp_streak += 1
+                else:
+                    break
+            
+            current_streak = temp_streak
+            
+            # Calculate longest streak
+            temp_streak = 1
+            sorted_dates_asc = sorted(unique_dates)
+            for i in range(1, len(sorted_dates_asc)):
+                prev_date = datetime.strptime(sorted_dates_asc[i-1], "%Y-%m-%d").date()
+                curr_date = datetime.strptime(sorted_dates_asc[i], "%Y-%m-%d").date()
+                
+                if (curr_date - prev_date).days == 1:
+                    temp_streak += 1
+                    longest_streak = max(longest_streak, temp_streak)
+                else:
+                    temp_streak = 1
+            
+            longest_streak = max(longest_streak, temp_streak, current_streak)
+        
+        return DashboardStats(
+            total_activities=len(activities),
+            total_artifacts=len(artifacts),
+            total_feedbacks=len(feedbacks),
+            activity_dates=activity_dates,
+            current_streak=current_streak,
+            longest_streak=longest_streak
+        )
+        
+    except Exception as e:
+        logger.error(f"Error fetching dashboard stats: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 # ============ Exposure Report Route ============
