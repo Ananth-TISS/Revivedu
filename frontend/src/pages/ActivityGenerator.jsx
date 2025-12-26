@@ -68,7 +68,8 @@ const ActivityGenerator = () => {
     age: "",
     subjects: [],
     intelligences: [],
-    tools: []
+    tools: [],
+    difficulty: "medium"
   });
 
   useEffect(() => {
