@@ -12,6 +12,8 @@ class HomeschoolPortalTester:
         self.tests_run = 0
         self.tests_passed = 0
         self.activity_id = None
+        self.user_token = None
+        self.child_id = None
         self.test_results = []
 
     def log_test(self, name, success, details=""):
