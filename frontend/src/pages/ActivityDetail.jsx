@@ -53,7 +53,6 @@ const ActivityDetail = () => {
     try {
       const response = await axios.get(`${API}/activities/${id}`);
       setActivity(response.data);
-      setNewTitle(response.data.title);
     } catch (error) {
       console.error("Error fetching activity:", error);
       toast.error("Failed to load activity");
@@ -101,26 +100,6 @@ const ActivityDetail = () => {
     setPlaybackSpeed(speed);
     if (audioRef.current) {
       audioRef.current.playbackRate = speed;
-    }
-  };
-
-  const handleSaveTitle = async () => {
-    if (!newTitle.trim()) {
-      toast.error("Title cannot be empty");
-      return;
-    }
-    
-    setSavingTitle(true);
-    try {
-      await axios.patch(`${API}/activities/${id}`, { title: newTitle });
-      setActivity({ ...activity, title: newTitle });
-      setEditingTitle(false);
-      toast.success("Activity name updated!");
-    } catch (error) {
-      console.error("Error updating title:", error);
-      toast.error("Failed to update activity name");
-    } finally {
-      setSavingTitle(false);
     }
   };
 
