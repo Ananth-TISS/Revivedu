@@ -180,6 +180,8 @@ class Feedback(BaseModel):
     experience: str
     outcomes: str
     suggestions: Optional[str] = None
+    completion_status: Optional[str] = None
+    outcomes_achieved: List[str] = []
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class Artifact(BaseModel):
