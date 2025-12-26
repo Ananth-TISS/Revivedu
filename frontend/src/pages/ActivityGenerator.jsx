@@ -93,10 +93,37 @@ const ActivityGenerator = () => {
         const child = response.data.find(c => c.id === childId);
         if (child) {
           setFormData(prev => ({ ...prev, age: child.age.toString() }));
+          setOriginalChildAge(child.age);
         }
       }
     } catch (error) {
       console.error("Error fetching children:", error);
+    }
+  };
+
+  // Handle age change and track if it differs from child's profile
+  const handleAgeChange = (value) => {
+    setFormData({ ...formData, age: value });
+    if (originalChildAge !== null && parseInt(value) !== originalChildAge) {
+      setAgeChanged(true);
+    } else {
+      setAgeChanged(false);
+    }
+  };
+
+  // Handle child selection change
+  const handleChildChange = (childId) => {
+    setSelectedChildId(childId);
+    if (childId && childId !== "none") {
+      const child = children.find(c => c.id === childId);
+      if (child) {
+        setFormData(prev => ({ ...prev, age: child.age.toString() }));
+        setOriginalChildAge(child.age);
+        setAgeChanged(false);
+      }
+    } else {
+      setOriginalChildAge(null);
+      setAgeChanged(false);
     }
   };
 
