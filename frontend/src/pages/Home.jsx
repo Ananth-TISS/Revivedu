@@ -50,11 +50,11 @@ const Home = () => {
                   Revivedu
                 </h1>
                 <p className="text-xl sm:text-2xl text-primary font-semibold mb-4">
-                  Reviving Education Through Intelligence
+                  Reviving the joy of learning
                 </p>
               </div>
               <p className="text-base sm:text-lg text-foreground/80">
-                A digital platform designed to address the unique education needs of <strong>Gifted Children</strong> (recognized in NEP 2020) and <strong>Homeschooled children</strong> in India. We bridge the gap between specialized educational requirements and accessible resources through AI-powered personalized learning.
+                A digital platform designed to address the unique educational needs of homeschooled children and gifted children (as recognized in NEP 2020) in India. We bridge the gap between specialized educational requirements, educational resources, and the lack of structured support through pedagogically-sound AI-powered personalized learning experiences.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button
@@ -64,7 +64,7 @@ const Home = () => {
                   onClick={() => navigate("/generate")}
                 >
                   <Sparkles className="mr-2 h-5 w-5" />
-                  Generate Activity
+                  Generate Your First Activity
                 </Button>
                 <Button
                   data-testid="view-library-btn"
@@ -74,14 +74,14 @@ const Home = () => {
                   onClick={() => navigate("/library")}
                 >
                   <BookOpen className="mr-2 h-5 w-5" />
-                  View Library
+                  View Activity Library
                 </Button>
               </div>
             </div>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1584376003963-e1aa9a61c0ac?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwxfHxoYXBweSUyMEluZGlhbiUyMGNoaWxkcmVuJTIwcGFyayUyMG91dGRvb3IlMjBsZWFybmluZyUyMGFjdGl2aXRpZXMlMjBzdW5saWdodHxlbnwwfHx8fDE3NjYxNDI3MTl8MA&ixlib=rb-4.1.0&q=85"
-                alt="Happy Indian children learning together in bright outdoor setting"
+                src="https://images.unsplash.com/photo-1595987146581-b118732eb87a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHw0fHxJbmRpYW4lMjBjaGlsZCUyMHN0dWRlbnQlMjBwYXJlbnQlMjBob21lJTIwc2NpZW5jZSUyMGV4cGVyaW1lbnQlMjBsZWFybmluZyUyMGFjdGl2aXR5fGVufDB8fHx8MTc2Njc1MDUxMnww&ixlib=rb-4.1.0&q=85"
+                alt="Indian child learning at home with parent support"
                 className="rounded-3xl shadow-pop w-full h-auto"
               />
             </div>
