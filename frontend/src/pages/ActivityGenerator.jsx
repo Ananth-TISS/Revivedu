@@ -218,6 +218,18 @@ const ActivityGenerator = () => {
           </p>
         </div>
 
+        {/* FOMO message for non-logged-in users */}
+        {!isAuthenticated && (
+          <Alert className="mb-8 rounded-2xl border-2 border-accent bg-accent/10">
+            <UserPlus className="h-5 w-5 text-accent" />
+            <AlertDescription className="ml-2">
+              <span className="font-semibold">Want to track your child's progress?</span>{" "}
+              <Link to="/signup" className="text-primary font-bold hover:underline">Sign up</Link> to unlock Exposure Reports, activity history, and personalized recommendations. 
+              Creating a profile helps us generate better activities for your child!
+            </AlertDescription>
+          </Alert>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="space-y-8">
             {/* Child Selection (for logged-in users) */}
@@ -228,7 +240,7 @@ const ActivityGenerator = () => {
                   <CardDescription>Link this activity to a child profile for tracking</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Select value={selectedChildId} onValueChange={setSelectedChildId}>
+                  <Select value={selectedChildId} onValueChange={handleChildChange}>
                     <SelectTrigger data-testid="child-select" className="h-12 rounded-xl border-2">
                       <SelectValue placeholder="Select a child or leave blank" />
                     </SelectTrigger>
@@ -252,7 +264,7 @@ const ActivityGenerator = () => {
                 <CardDescription>Select your child's age</CardDescription>
               </CardHeader>
               <CardContent>
-                <Select value={formData.age} onValueChange={(value) => setFormData({ ...formData, age: value })}>
+                <Select value={formData.age} onValueChange={handleAgeChange}>
                   <SelectTrigger data-testid="age-select" className="h-12 rounded-xl border-2">
                     <SelectValue placeholder="Select age" />
                   </SelectTrigger>
@@ -264,6 +276,17 @@ const ActivityGenerator = () => {
                     ))}
                   </SelectContent>
                 </Select>
+                
+                {/* Age change warning */}
+                {ageChanged && selectedChildId && selectedChildId !== "none" && (
+                  <Alert className="mt-4 rounded-xl border-2 border-yellow-500 bg-yellow-50">
+                    <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                    <AlertDescription className="ml-2 text-yellow-800">
+                      <span className="font-semibold">Note:</span> You've changed the age from the child's profile (Age {originalChildAge}). 
+                      This activity will be generated for age {formData.age}, but won't update the child's profile.
+                    </AlertDescription>
+                  </Alert>
+                )}
               </CardContent>
             </Card>
 
