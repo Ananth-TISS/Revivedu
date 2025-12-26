@@ -249,6 +249,14 @@ async def generate_activity_with_ai(input_data: ActivityInput) -> dict:
         subjects_str = ", ".join(input_data.subjects)
         intelligences_str = ", ".join(input_data.intelligences)
         tools_str = ", ".join(input_data.tools)
+        difficulty = input_data.difficulty.capitalize()
+        
+        # Map difficulty to complexity guidance
+        difficulty_guidance = {
+            "easy": "Create a straightforward, foundational activity with clear, simple steps. Focus on building basic understanding and confidence. Use familiar concepts and minimal complexity.",
+            "medium": "Create a balanced activity with moderate challenge. Include some problem-solving elements while ensuring achievability. Good for reinforcing and extending existing knowledge.",
+            "difficult": "Create a challenging, advanced activity that pushes boundaries. Include complex reasoning, multi-step problems, and opportunities for deep exploration. Suitable for gifted learners seeking intellectual stimulation."
+        }
         
         prompt = f"""As an expert in educational program design with specialized knowledge of NCF-SE 2023 framework and National Institute of Open Schooling (NIOS) curriculum standards, create a comprehensive, contextualized learning activity for a {input_data.age}-year-old gifted/homeschooled child in India.
 
@@ -257,6 +265,10 @@ async def generate_activity_with_ai(input_data: ActivityInput) -> dict:
 - Subjects: {subjects_str}
 - Multiple Intelligences (Howard Gardner): {intelligences_str}
 - Available Materials: {tools_str}
+- Difficulty Level: {difficulty}
+
+**Difficulty Guidance:**
+{difficulty_guidance.get(input_data.difficulty, difficulty_guidance["medium"])}
 
 **Requirements:**
 Design an activity that:
@@ -267,6 +279,7 @@ Design an activity that:
 5. Is age-appropriate, engaging, and culturally relevant to Indian context
 6. Uses only the available materials at home
 7. Supports both gifted learners and homeschooling needs
+8. Matches the specified difficulty level: {difficulty}
 
 **Required Format (respond ONLY with valid JSON):**
 {{
