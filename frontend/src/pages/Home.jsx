@@ -288,7 +288,7 @@ const Home = () => {
               </div>
               <h3 className="text-xl font-bold text-secondary mb-4">8 Multiple Intelligences</h3>
               <p className="text-foreground/80">
-                Activities designed around all 8 intelligence types: linguistic, logical-mathematical, spatial, bodily-kinesthetic, musical, interpersonal, intrapersonal, and naturalistic.
+                Activities designed around all 8 intelligence types for holistic development.
               </p>
             </div>
             <div className="bg-card rounded-3xl p-8 shadow-sm hover:shadow-pop transition-all duration-300" data-testid="feature-card-skills">
@@ -297,7 +297,7 @@ const Home = () => {
               </div>
               <h3 className="text-xl font-bold text-secondary mb-4">21st Century Skills & SEL</h3>
               <p className="text-foreground/80">
-                Foster critical thinking, creativity, collaboration, communication, and social-emotional learning through carefully crafted activities.
+                Foster critical thinking, creativity, collaboration, communication, and social-emotional learning.
               </p>
             </div>
             <div className="bg-card rounded-3xl p-8 shadow-sm hover:shadow-pop transition-all duration-300" data-testid="feature-card-nios">
@@ -306,7 +306,7 @@ const Home = () => {
               </div>
               <h3 className="text-xl font-bold text-secondary mb-4">NIOS Curriculum Access</h3>
               <p className="text-foreground/80">
-                Structured access to NIOS curriculum for grades 10 and 12, supplemented with AI-generated activities targeting specific intelligences.
+                Structured access to NIOS curriculum for grades 10 and 12, supplemented with AI activities.
               </p>
             </div>
           </div>
