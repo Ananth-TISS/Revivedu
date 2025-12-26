@@ -440,26 +440,48 @@ class HomeschoolPortalTester:
 
     def run_all_tests(self):
         """Run all backend tests"""
-        print("🚀 Starting Homeschool Portal Backend Tests")
-        print("=" * 50)
+        print("🚀 Starting Enhanced Homeschool Portal Backend Tests")
+        print("=" * 60)
         
         # Test basic connectivity first
         if not self.test_root_endpoint():
             print("❌ Root endpoint failed - stopping tests")
             return False
         
+        # Test authentication and user management
+        if not self.test_user_signup_login():
+            print("❌ Authentication failed - stopping tests")
+            return False
+            
+        # Test child profile creation
+        self.test_create_child_profile()
+        
+        # Test new dashboard stats API
+        self.test_dashboard_stats()
+        
+        # Test enhanced activity generation with difficulty
+        self.test_generate_activity_with_difficulty()
+        
+        # Test activity title update
+        self.test_update_activity_title()
+        
         # Test core functionality
-        self.test_generate_activity()
         self.test_get_activities()
         self.test_get_activity_by_id()
-        self.test_submit_feedback()
+        
+        # Test enhanced feedback with new fields
+        self.test_submit_enhanced_feedback()
         self.test_get_feedback()
+        
+        # Test artifact functionality
         self.test_upload_artifact()
         self.test_get_artifacts()
+        
+        # Test filtering
         self.test_activity_filters()
         
         # Print summary
-        print("\n" + "=" * 50)
+        print("\n" + "=" * 60)
         print(f"📊 Test Results: {self.tests_passed}/{self.tests_run} passed")
         
         if self.tests_passed == self.tests_run:
