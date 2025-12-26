@@ -51,6 +51,12 @@ const TOOLS = [
   "Board games"
 ];
 
+const DIFFICULTY_LEVELS = [
+  { value: "easy", label: "Easy", description: "Introductory level, suitable for beginners or younger learners" },
+  { value: "medium", label: "Medium", description: "Moderate challenge, appropriate for most learners" },
+  { value: "difficult", label: "Difficult", description: "Advanced level, for experienced learners seeking a challenge" }
+];
+
 const ActivityGenerator = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
