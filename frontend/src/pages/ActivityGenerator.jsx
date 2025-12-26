@@ -152,6 +152,7 @@ const ActivityGenerator = () => {
         subjects: formData.subjects,
         intelligences: formData.intelligences,
         tools: formData.tools,
+        difficulty: formData.difficulty,
         child_id: selectedChildId && selectedChildId !== "none" ? selectedChildId : null
       });
       
