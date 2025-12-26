@@ -31,7 +31,94 @@ class HomeschoolPortalTester:
             "details": details
         })
 
-    def test_root_endpoint(self):
+    def test_user_signup_login(self):
+        """Test user signup and login to get auth token"""
+        try:
+            # Test signup
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            signup_payload = {
+                "name": f"Test User {timestamp}",
+                "email": f"test_{timestamp}@example.com",
+                "password": "TestPassword123!"
+            }
+            
+            response = requests.post(f"{self.api_url}/auth/signup", json=signup_payload, timeout=10)
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                self.user_token = data.get('access_token')
+                details = f"User created and logged in: {data.get('user', {}).get('name', 'Unknown')}"
+            else:
+                details = f"Signup failed - Status: {response.status_code}, Response: {response.text[:200]}"
+                
+            self.log_test("User Signup & Login", success, details)
+            return success
+        except Exception as e:
+            self.log_test("User Signup & Login", False, str(e))
+            return False
+
+    def test_create_child_profile(self):
+        """Test creating a child profile"""
+        if not self.user_token:
+            self.log_test("Create Child Profile", False, "No auth token available")
+            return False
+            
+        try:
+            payload = {
+                "name": "Test Child",
+                "age": 8,
+                "grade": "Grade 3",
+                "interests": ["Science", "Mathematics", "Art"]
+            }
+            
+            headers = {"Authorization": f"Bearer {self.user_token}"}
+            response = requests.post(f"{self.api_url}/children", json=payload, headers=headers, timeout=10)
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                self.child_id = data.get('id')
+                details = f"Child profile created: {data.get('name', 'Unknown')}"
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text[:200]}"
+                
+            self.log_test("Create Child Profile", success, details)
+            return success
+        except Exception as e:
+            self.log_test("Create Child Profile", False, str(e))
+            return False
+
+    def test_dashboard_stats(self):
+        """Test dashboard stats API with new fields"""
+        if not self.user_token:
+            self.log_test("Dashboard Stats", False, "No auth token available")
+            return False
+            
+        try:
+            headers = {"Authorization": f"Bearer {self.user_token}"}
+            response = requests.get(f"{self.api_url}/dashboard/stats", headers=headers, timeout=10)
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                required_fields = ['total_activities', 'total_artifacts', 'total_feedbacks', 
+                                 'activity_dates', 'current_streak', 'longest_streak']
+                missing_fields = [field for field in required_fields if field not in data]
+                
+                if missing_fields:
+                    success = False
+                    details = f"Missing required fields: {missing_fields}"
+                else:
+                    details = f"Stats: {data['total_activities']} activities, {data['current_streak']} day streak"
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text[:200]}"
+                
+            self.log_test("Dashboard Stats API", success, details)
+            return success
+        except Exception as e:
+            self.log_test("Dashboard Stats API", False, str(e))
+            return False
         """Test root API endpoint"""
         try:
             response = requests.get(f"{self.api_url}/", timeout=10)
