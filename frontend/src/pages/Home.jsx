@@ -89,32 +89,15 @@ const Home = () => {
         </div>
       </div>
 
-      {/* What is Revivedu Section */}
-      <div className="bg-card py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-secondary mb-8">
-            What is Revivedu?
-          </h2>
-          <div className="max-w-4xl mx-auto space-y-6 text-foreground/80 text-lg">
-            <p>
-              Revivedu integrates <strong>Howard Gardner's Multiple Intelligence Theory</strong> to provide a holistic approach to education, allowing parents and teachers to understand children's unique intelligence profiles and create tailored learning pathways.
-            </p>
-            <p>
-              The platform offers structured access to the <strong>NIOS curriculum</strong> for grades 10 and 12 while supplementing it with AI-generated activities targeting specific intelligences. Through a comprehensive onboarding process, activity generation engine, and detailed progress tracking, Revivedu aims to democratize quality education for gifted and homeschooled children.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* The Problem Section */}
+      {/* Why - Addressing Critical Education Gaps */}
       <div className="bg-muted py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-3xl sm:text-4xl font-bold text-center text-secondary mb-8">
-            Addressing Critical Education Gaps in India
+            Why Revivedu?
           </h2>
           <div className="max-w-4xl mx-auto space-y-6 text-foreground/80 text-base sm:text-lg">
             <p>
-              The Indian education system currently faces a significant gap in addressing the specialized needs of two growing student demographics: <strong>gifted children recognized under NEP 2020</strong> and the increasing number of <strong>homeschooled children</strong> (~15,000+ families).
+              The Indian education system currently faces a significant gap in addressing the specialized needs of homeschooled children and gifted learners recognized under NEP 2020. Both groups require educational approaches that move beyond standardized content to embrace individualized learning.
             </p>
             <div className="grid md:grid-cols-2 gap-6 my-8">
               <div className="bg-card rounded-3xl p-6 shadow-sm">
@@ -123,7 +106,7 @@ const Home = () => {
                   Gifted Learners
                 </h3>
                 <p className="text-foreground/80">
-                  Despite policy recognition, gifted learners lack systematic identification methods and personalized learning pathways that challenge their unique abilities across multiple intelligence domains.
+                  Despite NEP 2020 recognition, gifted learners lack systematic identification and personalized pathways challenging their unique abilities.
                 </p>
               </div>
               <div className="bg-card rounded-3xl p-6 shadow-sm">
@@ -132,65 +115,115 @@ const Home = () => {
                   Homeschooled Children
                 </h3>
                 <p className="text-foreground/80">
-                  Struggle to access structured yet flexible curriculum resources aligned with national standards (NIOS), requiring individualized learning approaches.
+                  Struggle to access structured yet flexible curriculum resources aligned with national standards (NIOS).
                 </p>
               </div>
             </div>
-            <p>
-              Both groups require educational approaches that move beyond standardized content to embrace individualized learning that nurtures their specific strengths. Current solutions are fragmented, with limited integration of multiple intelligence theory into practical learning activities.
-            </p>
-            <p>
-              Additionally, parents and teachers often lack the training and tools to effectively identify intelligence patterns and create appropriate learning experiences. There is an identified need for a comprehensive platform that combines theoretical frameworks with practical applications.
-            </p>
           </div>
         </div>
       </div>
 
-      {/* Our Approach Section */}
-      <div className="bg-background py-16 md:py-24">
+      {/* What - Our Solution */}
+      <div className="bg-card py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-secondary mb-12">
-            Our Approach to the Solution
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-secondary mb-8">
+            What is Revivedu?
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-card rounded-3xl p-8 shadow-sm hover:shadow-pop transition-all duration-300" data-testid="feature-card-mi">
+          <div className="max-w-4xl mx-auto space-y-6 text-foreground/80 text-lg mb-12">
+            <p>
+              Revivedu integrates <strong>Howard Gardner's Multiple Intelligence Theory</strong> to provide a holistic approach to education, allowing parents and teachers to understand children's unique intelligence profiles and create tailored learning pathways.
+            </p>
+            <p>
+              The platform offers structured access to the <strong>NIOS curriculum</strong> for grades 10 and 12 while supplementing it with AI-generated activities targeting specific intelligences.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-background rounded-3xl p-8 shadow-sm hover:shadow-pop transition-all duration-300">
               <div className="bg-accent/20 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                 <Brain className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-secondary mb-4">Multiple Intelligences Theory</h3>
+              <h3 className="text-xl font-bold text-secondary mb-4">Multiple Intelligences</h3>
               <p className="text-foreground/80">
-                Leveraging Howard Gardner's theory to identify and nurture 8 types of intelligence, moving beyond traditional methods that favor only 2-3 intelligence types.
+                Activities targeting all 8 intelligence types, moving beyond traditional methods that favor only 2-3 types.
               </p>
             </div>
-            <div className="bg-card rounded-3xl p-8 shadow-sm hover:shadow-pop transition-all duration-300" data-testid="feature-card-ai">
+            <div className="bg-background rounded-3xl p-8 shadow-sm hover:shadow-pop transition-all duration-300">
               <div className="bg-accent/20 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                 <Sparkles className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-secondary mb-4">AI-Powered Personalization</h3>
+              <h3 className="text-xl font-bold text-secondary mb-4">AI-Powered Learning</h3>
               <p className="text-foreground/80">
-                Advanced AI engine generates custom activities based on intelligence types, age, subject matter, and NIOS curriculum alignment for truly personalized learning.
+                Advanced AI generates personalized activities based on intelligence types, age, and NIOS curriculum alignment.
               </p>
             </div>
-            <div className="bg-card rounded-3xl p-8 shadow-sm hover:shadow-pop transition-all duration-300" data-testid="feature-card-nep">
+            <div className="bg-background rounded-3xl p-8 shadow-sm hover:shadow-pop transition-all duration-300">
               <div className="bg-accent/20 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                 <Target className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-xl font-bold text-secondary mb-4">NEP 2020 Aligned</h3>
               <p className="text-foreground/80">
-                Aligned with NEP 2020's vision of "developing an equitable and just society" through education, democratizing specialized educational approaches.
+                All activities align with NCF-SE 2023 and NIOS standards, ensuring pedagogical soundness.
               </p>
             </div>
           </div>
-          <div className="max-w-4xl mx-auto space-y-6 text-foreground/80 text-base sm:text-lg">
-            <p>
-              Revivedu's design recognizes that traditional educational methods often fail to address the diverse ways in which children learn and express intelligence. Standardized curricula and academic timetables unevenly favour only 2-3 types of intelligence (logical-mathematical, verbal-linguistic, and visual-spatial) as learners move to larger public examination levels.
-            </p>
-            <p>
-              By identifying and nurturing specific intelligence types from logical-mathematical to interpersonal and others, Revivedu enables children and their parents (gifted and homeschooled) to learn in ways that best match their natural inclinations and strengths.
-            </p>
-            <p>
-              Our technological foundation leverages <strong>data analytics and artificial intelligence</strong> to tailor content, pace, and teaching methods to individual needs. This personalization happens through the platform's AI engine, which generates custom activities based on specific parameters including intelligence types, age group, subject matter alignment with NIOS curriculum, and activity duration.
-            </p>
+        </div>
+      </div>
+
+      {/* How - Platform Features */}
+      <div className="bg-background py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-secondary mb-12">
+            How It Works
+          </h2>
+          <div className="max-w-5xl mx-auto space-y-8">
+            <div className="flex gap-6 items-start">
+              <div className="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold">
+                1
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-secondary mb-2">Create Child Profile</h3>
+                <p className="text-foreground/80">
+                  Sign up and create a profile for your child, including their age, interests, and learning preferences.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex gap-6 items-start">
+              <div className="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold">
+                2
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-secondary mb-2">Generate Personalized Activities</h3>
+                <p className="text-foreground/80">
+                  Select subjects, intelligences, and available materials. Our AI creates comprehensive, curriculum-aligned activities instantly.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex gap-6 items-start">
+              <div className="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold">
+                3
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-secondary mb-2">Engage & Track Progress</h3>
+                <p className="text-foreground/80">
+                  Complete activities, submit feedback and artifacts. View exposure reports showing learning patterns and development.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex gap-6 items-start">
+              <div className="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold">
+                4
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-secondary mb-2">Build Learning Library</h3>
+                <p className="text-foreground/80">
+                  Access your complete activity history, browse past activities, and track your child's holistic development journey.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
