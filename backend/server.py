@@ -168,6 +168,8 @@ class FeedbackInput(BaseModel):
     experience: str
     outcomes: str
     suggestions: Optional[str] = None
+    completion_status: Optional[str] = None
+    outcomes_achieved: List[str] = []
 
 class Feedback(BaseModel):
     model_config = ConfigDict(extra="ignore")
