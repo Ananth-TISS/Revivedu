@@ -65,6 +65,8 @@ const ActivityGenerator = () => {
   const [loading, setLoading] = useState(false);
   const [children, setChildren] = useState([]);
   const [selectedChildId, setSelectedChildId] = useState(searchParams.get("childId") || "");
+  const [originalChildAge, setOriginalChildAge] = useState(null);
+  const [ageChanged, setAgeChanged] = useState(false);
   const [formData, setFormData] = useState({
     age: "",
     subjects: [],
