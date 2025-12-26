@@ -291,19 +291,22 @@ class HomeschoolPortalTester:
             self.log_test("Get Activity by ID", False, str(e))
             return False
 
-    def test_submit_feedback(self):
-        """Test feedback submission"""
+    def test_submit_enhanced_feedback(self):
+        """Test enhanced feedback submission with completion_status and outcomes_achieved"""
         if not self.activity_id:
-            self.log_test("Submit Feedback", False, "No activity ID available")
+            self.log_test("Submit Enhanced Feedback", False, "No activity ID available")
             return False
             
         try:
             payload = {
                 "activity_id": self.activity_id,
+                "child_id": self.child_id,
                 "rating": 5,
-                "experience": "Great activity! My child loved it.",
+                "experience": "Great activity! My child loved it and learned a lot.",
                 "outcomes": "Learned about shapes and counting.",
-                "suggestions": "Maybe add more visual examples."
+                "suggestions": "Maybe add more visual examples.",
+                "completion_status": "completed",  # New field
+                "outcomes_achieved": ["Critical thinking", "Problem solving", "Mathematical reasoning"]  # New field
             }
             
             response = requests.post(f"{self.api_url}/feedback", json=payload, timeout=10)
@@ -311,14 +314,14 @@ class HomeschoolPortalTester:
             
             if success:
                 data = response.json()
-                details = f"Feedback submitted with ID: {data.get('id', 'Unknown')}"
+                details = f"Enhanced feedback submitted with ID: {data.get('id', 'Unknown')}"
             else:
                 details = f"Status: {response.status_code}, Response: {response.text[:200]}"
                 
-            self.log_test("Submit Feedback", success, details)
+            self.log_test("Submit Enhanced Feedback", success, details)
             return success
         except Exception as e:
-            self.log_test("Submit Feedback", False, str(e))
+            self.log_test("Submit Enhanced Feedback", False, str(e))
             return False
 
     def test_get_feedback(self):
