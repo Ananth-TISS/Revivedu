@@ -237,6 +237,49 @@ const ActivityGenerator = () => {
               </CardContent>
             </Card>
 
+            {/* Difficulty Selection */}
+            <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="difficulty-selection-card">
+              <CardHeader>
+                <CardTitle className="text-2xl text-secondary">Difficulty Level *</CardTitle>
+                <CardDescription>Select the challenge level for the activity</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <TooltipProvider>
+                  <div className="grid sm:grid-cols-3 gap-4">
+                    {DIFFICULTY_LEVELS.map((level) => (
+                      <div 
+                        key={level.value}
+                        data-testid={`difficulty-${level.value}`}
+                        onClick={() => setFormData({ ...formData, difficulty: level.value })}
+                        className={`relative cursor-pointer rounded-2xl border-2 p-4 transition-all duration-200 ${
+                          formData.difficulty === level.value 
+                            ? 'border-primary bg-primary/5' 
+                            : 'border-border hover:border-primary/50'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className={`font-semibold ${formData.difficulty === level.value ? 'text-primary' : 'text-secondary'}`}>
+                            {level.label}
+                          </span>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-xs">
+                              <p>{level.description}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                        {formData.difficulty === level.value && (
+                          <div className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </TooltipProvider>
+              </CardContent>
+            </Card>
+
             {/* Subject Selection */}
             <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="subjects-card">
               <CardHeader>
