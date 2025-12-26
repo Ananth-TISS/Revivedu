@@ -54,7 +54,7 @@ const Home = () => {
                 </p>
               </div>
               <p className="text-base sm:text-lg text-foreground/80">
-                A digital platform designed to address the unique educational needs of homeschooled children and gifted children (as recognized in NEP 2020) in India. We bridge the gap between specialized educational requirements, educational resources, and the lack of structured support through pedagogically-sound AI-powered personalized learning experiences.
+                A digital platform designed to address the unique educational needs of <strong>homeschooled children</strong> and <strong>gifted children</strong> (as recognized in NEP 2020) in India. We bridge the gap between specialized educational requirements, educational resources, and the lack of structured support through pedagogically-sound AI-powered personalized learning experiences.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button
