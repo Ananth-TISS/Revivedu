@@ -317,10 +317,10 @@ const ActivityDetail = () => {
               Activity
             </TabsTrigger>
             <TabsTrigger value="feedback" className="rounded-full" data-testid="tab-feedback">
-              Feedback
+              Activity Feedback & Learner Engagement
             </TabsTrigger>
             <TabsTrigger value="artifacts" className="rounded-full" data-testid="tab-artifacts">
-              Artifacts ({artifacts.length})
+              What did they make? ({artifacts.length})
             </TabsTrigger>
           </TabsList>
 
