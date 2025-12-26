@@ -95,7 +95,7 @@ const Signup = () => {
               </div>
 
               <div>
-                <Label htmlFor="password" className="text-base mb-2 block">Password</Label>
+                <Label htmlFor="password" className="text-base mb-2 block">Create Password</Label>
                 <Input
                   id="password"
                   data-testid="password-input"
