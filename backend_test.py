@@ -119,6 +119,7 @@ class HomeschoolPortalTester:
         except Exception as e:
             self.log_test("Dashboard Stats API", False, str(e))
             return False
+    def test_root_endpoint(self):
         """Test root API endpoint"""
         try:
             response = requests.get(f"{self.api_url}/", timeout=10)
@@ -131,6 +132,78 @@ class HomeschoolPortalTester:
             return success
         except Exception as e:
             self.log_test("Root API Endpoint", False, str(e))
+            return False
+
+    def test_generate_activity_with_difficulty(self):
+        """Test activity generation with difficulty parameter"""
+        try:
+            payload = {
+                "age": 8,
+                "subjects": ["Mathematics", "Science"],
+                "intelligences": ["Logical-Mathematical", "Spatial"],
+                "tools": ["Paper and pencils", "Internet access"],
+                "difficulty": "medium",  # Test the new difficulty parameter
+                "child_id": self.child_id
+            }
+            
+            print("🔄 Generating activity with difficulty setting (this may take 10-15 seconds)...")
+            response = requests.post(
+                f"{self.api_url}/activities/generate", 
+                json=payload, 
+                timeout=30
+            )
+            
+            success = response.status_code == 200
+            if success:
+                data = response.json()
+                self.activity_id = data.get('id')
+                required_fields = ['id', 'title', 'description', 'instructions', 'difficulty']
+                missing_fields = [field for field in required_fields if not data.get(field)]
+                
+                if missing_fields:
+                    success = False
+                    details = f"Missing fields: {missing_fields}"
+                elif data.get('difficulty') != 'medium':
+                    success = False
+                    details = f"Difficulty not set correctly: expected 'medium', got '{data.get('difficulty')}'"
+                else:
+                    details = f"Activity created with difficulty '{data.get('difficulty')}': {data.get('title', 'Unknown')[:50]}..."
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text[:200]}"
+                
+            self.log_test("Generate Activity with Difficulty", success, details)
+            return success
+        except Exception as e:
+            self.log_test("Generate Activity with Difficulty", False, str(e))
+            return False
+
+    def test_update_activity_title(self):
+        """Test updating activity title using PATCH"""
+        if not self.activity_id:
+            self.log_test("Update Activity Title", False, "No activity ID available")
+            return False
+            
+        try:
+            new_title = f"Updated Activity Title - {datetime.now().strftime('%H:%M:%S')}"
+            payload = {"title": new_title}
+            
+            response = requests.patch(f"{self.api_url}/activities/{self.activity_id}", json=payload, timeout=10)
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                if data.get('title') == new_title:
+                    details = f"Title updated successfully to: {new_title}"
+                else:
+                    success = False
+                    details = f"Title not updated correctly: expected '{new_title}', got '{data.get('title')}'"
+            else:
+                details = f"Status: {response.status_code}, Response: {response.text[:200]}"
+                
+            self.log_test("Update Activity Title", success, details)
+            return success
+        except Exception as e:
+            self.log_test("Update Activity Title", False, str(e))
             return False
 
     def test_generate_activity(self):
