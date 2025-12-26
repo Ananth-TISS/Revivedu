@@ -106,6 +106,7 @@ class ActivityInput(BaseModel):
     subjects: List[str]
     intelligences: List[str]
     tools: List[str]
+    difficulty: str = "medium"
     child_id: Optional[str] = None
 
 class Activity(BaseModel):
