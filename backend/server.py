@@ -498,6 +498,7 @@ async def create_activity(input_data: ActivityInput):
             subjects=input_data.subjects,
             intelligences=input_data.intelligences,
             tools=input_data.tools,
+            difficulty=input_data.difficulty,
             title=ai_response["title"],
             objective=ai_response["objective"],
             description=ai_response["description"],
