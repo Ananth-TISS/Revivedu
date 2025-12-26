@@ -143,6 +143,7 @@ class ActivityResponse(BaseModel):
     subjects: List[str]
     intelligences: List[str]
     tools: List[str]
+    difficulty: Optional[str] = "medium"
     title: str
     objective: Optional[str] = None
     description: str
