@@ -771,26 +771,6 @@ const ActivityDetail = () => {
                     </div>
                   )}
 
-                  {/* Star Rating (kept for backward compatibility) */}
-                  <div>
-                    <Label className="text-base mb-2 block">Star Rating</Label>
-                    <div className="flex gap-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          data-testid={`rating-star-${star}`}
-                          onClick={() => setFeedbackForm({ ...feedbackForm, rating: star })}
-                          className="focus:outline-none transform hover:scale-110 transition-transform"
-                        >
-                          <Star
-                            className={`h-10 w-10 ${star <= feedbackForm.rating ? 'fill-accent text-accent' : 'text-border'}`}
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
                   <div>
                     <Label htmlFor="experience" className="text-base mb-2 block font-semibold">Experience *</Label>
                     <Textarea
@@ -805,26 +785,14 @@ const ActivityDetail = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="outcomes" className="text-base mb-2 block">Additional Observations</Label>
+                    <Label htmlFor="additional_comments" className="text-base mb-2 block">Additional Observations & Suggestions</Label>
                     <Textarea
-                      id="outcomes"
-                      data-testid="feedback-outcomes"
-                      placeholder="Any additional observations about your child's learning?"
-                      value={feedbackForm.outcomes}
-                      onChange={(e) => setFeedbackForm({ ...feedbackForm, outcomes: e.target.value })}
-                      className="min-h-[100px] rounded-xl border-2"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="suggestions" className="text-base mb-2 block">Suggestions for Improvement</Label>
-                    <Textarea
-                      id="suggestions"
-                      data-testid="feedback-suggestions"
-                      placeholder="Any suggestions to make this activity better?"
-                      value={feedbackForm.suggestions}
-                      onChange={(e) => setFeedbackForm({ ...feedbackForm, suggestions: e.target.value })}
-                      className="min-h-[100px] rounded-xl border-2"
+                      id="additional_comments"
+                      data-testid="feedback-additional-comments"
+                      placeholder="Any additional observations about your child's learning or suggestions to improve this activity?"
+                      value={feedbackForm.additional_comments}
+                      onChange={(e) => setFeedbackForm({ ...feedbackForm, additional_comments: e.target.value })}
+                      className="min-h-[120px] rounded-xl border-2"
                     />
                   </div>
 
