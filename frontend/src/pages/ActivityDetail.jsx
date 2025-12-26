@@ -6,7 +6,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Loader2, CheckCircle2, Upload, Star, Lightbulb, Volume2, Play, Pause } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ArrowLeft, Loader2, CheckCircle2, Upload, Star, Lightbulb, Volume2, Play, Pause, Printer, Download, Edit2, Save } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 
@@ -21,12 +24,20 @@ const ActivityDetail = () => {
   const [activeTab, setActiveTab] = useState("activity");
   const [artifacts, setArtifacts] = useState([]);
   
-  // Feedback form
+  // Activity name edit
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [savingTitle, setSavingTitle] = useState(false);
+  
+  // Enhanced Feedback form with Likert scale and learning outcomes checklist
   const [feedbackForm, setFeedbackForm] = useState({
     rating: 0,
     experience: "",
     outcomes: "",
-    suggestions: ""
+    suggestions: "",
+    completion_status: "",
+    likert_rating: 0,
+    outcomes_achieved: []
   });
   const [submittingFeedback, setSubmittingFeedback] = useState(false);
   
@@ -50,6 +61,7 @@ const ActivityDetail = () => {
     try {
       const response = await axios.get(`${API}/activities/${id}`);
       setActivity(response.data);
+      setNewTitle(response.data.title);
     } catch (error) {
       console.error("Error fetching activity:", error);
       toast.error("Failed to load activity");
@@ -100,15 +112,155 @@ const ActivityDetail = () => {
     }
   };
 
+  const handleSaveTitle = async () => {
+    if (!newTitle.trim()) {
+      toast.error("Title cannot be empty");
+      return;
+    }
+    
+    setSavingTitle(true);
+    try {
+      await axios.patch(`${API}/activities/${id}`, { title: newTitle });
+      setActivity({ ...activity, title: newTitle });
+      setEditingTitle(false);
+      toast.success("Activity name updated!");
+    } catch (error) {
+      console.error("Error updating title:", error);
+      toast.error("Failed to update activity name");
+    } finally {
+      setSavingTitle(false);
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleDownloadPDF = () => {
+    // Create printable content
+    const printContent = document.getElementById('activity-content');
+    if (!printContent) return;
+    
+    // Use browser print dialog with PDF option
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>${activity.title} - Revivedu</title>
+        <style>
+          body { font-family: system-ui, -apple-system, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
+          h1 { color: #1a365d; margin-bottom: 20px; }
+          h2 { color: #2d3748; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+          h3 { color: #4a5568; margin-top: 20px; }
+          p { line-height: 1.6; color: #4a5568; }
+          ul, ol { margin-left: 20px; line-height: 1.8; }
+          li { margin-bottom: 8px; }
+          .tag { display: inline-block; background: #edf2f7; padding: 4px 12px; border-radius: 20px; margin: 4px; font-size: 14px; }
+          .section { margin-bottom: 30px; }
+          .objective-box { background: #f7fafc; border-left: 4px solid #3182ce; padding: 15px; margin: 15px 0; }
+          .header-info { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+          @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+        </style>
+      </head>
+      <body>
+        <h1>${activity.title}</h1>
+        <div class="header-info">
+          <span class="tag">Age: ${activity.age}</span>
+          ${activity.estimated_time ? `<span class="tag">Duration: ${activity.estimated_time}</span>` : ''}
+          ${activity.difficulty ? `<span class="tag">Difficulty: ${activity.difficulty}</span>` : ''}
+        </div>
+        
+        ${activity.objective ? `
+        <div class="section">
+          <h2>Objective</h2>
+          <div class="objective-box">${activity.objective}</div>
+        </div>
+        ` : ''}
+        
+        <div class="section">
+          <h2>Description</h2>
+          <p>${activity.description}</p>
+        </div>
+        
+        ${activity.expected_outcome ? `
+        <div class="section">
+          <h2>Expected Outcome</h2>
+          <p>${activity.expected_outcome}</p>
+        </div>
+        ` : ''}
+        
+        ${activity.materials_required && activity.materials_required.length > 0 ? `
+        <div class="section">
+          <h2>Materials Required</h2>
+          <ul>
+            ${activity.materials_required.map(m => `<li>${m}</li>`).join('')}
+          </ul>
+        </div>
+        ` : ''}
+        
+        <div class="section">
+          <h2>Step-by-Step Process</h2>
+          <ol>
+            ${activity.instructions.map(i => `<li>${i}</li>`).join('')}
+          </ol>
+        </div>
+        
+        ${activity.success_metrics && activity.success_metrics.length > 0 ? `
+        <div class="section">
+          <h2>Success Metrics</h2>
+          <ul>
+            ${activity.success_metrics.map(m => `<li>${m}</li>`).join('')}
+          </ul>
+        </div>
+        ` : ''}
+        
+        ${activity.reflection_question ? `
+        <div class="section">
+          <h2>Reflection Question</h2>
+          <p><em>"${activity.reflection_question}"</em></p>
+        </div>
+        ` : ''}
+        
+        ${activity.learning_outcomes && activity.learning_outcomes.length > 0 ? `
+        <div class="section">
+          <h2>Learning Outcomes</h2>
+          <ul>
+            ${activity.learning_outcomes.map(o => `<li>${o}</li>`).join('')}
+          </ul>
+        </div>
+        ` : ''}
+        
+        ${activity.real_world_connection ? `
+        <div class="section">
+          <h2>Real-World Connection</h2>
+          <p>${activity.real_world_connection}</p>
+        </div>
+        ` : ''}
+        
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center; color: #718096; font-size: 12px;">
+          Generated by Revivedu - Reviving the joy of learning
+        </footer>
+      </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
+  };
+
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
     
-    if (feedbackForm.rating === 0) {
-      toast.error("Please select a rating");
+    if (feedbackForm.likert_rating === 0) {
+      toast.error("Please provide an activity rating (1-5)");
       return;
     }
-    if (!feedbackForm.experience || !feedbackForm.outcomes) {
-      toast.error("Please fill in all required fields");
+    if (!feedbackForm.completion_status) {
+      toast.error("Please select a completion status");
+      return;
+    }
+    if (!feedbackForm.experience) {
+      toast.error("Please describe the experience");
       return;
     }
 
@@ -117,14 +269,22 @@ const ActivityDetail = () => {
       await axios.post(`${API}/feedback`, {
         activity_id: id,
         child_id: activity?.child_id || null,
-        ...feedbackForm
+        rating: feedbackForm.likert_rating,
+        experience: feedbackForm.experience,
+        outcomes: feedbackForm.outcomes || feedbackForm.outcomes_achieved.join(", "),
+        suggestions: feedbackForm.suggestions,
+        completion_status: feedbackForm.completion_status,
+        outcomes_achieved: feedbackForm.outcomes_achieved
       });
       toast.success("Feedback submitted successfully!");
       setFeedbackForm({
         rating: 0,
         experience: "",
         outcomes: "",
-        suggestions: ""
+        suggestions: "",
+        completion_status: "",
+        likert_rating: 0,
+        outcomes_achieved: []
       });
     } catch (error) {
       console.error("Error submitting feedback:", error);
@@ -168,6 +328,15 @@ const ActivityDetail = () => {
     }
   };
 
+  const handleOutcomeToggle = (outcome) => {
+    setFeedbackForm(prev => ({
+      ...prev,
+      outcomes_achieved: prev.outcomes_achieved.includes(outcome)
+        ? prev.outcomes_achieved.filter(o => o !== outcome)
+        : [...prev.outcomes_achieved, outcome]
+    }));
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -191,46 +360,110 @@ const ActivityDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-6 py-12" id="activity-content">
         <Button
           data-testid="back-library-btn"
           variant="ghost"
           onClick={() => navigate("/library")}
-          className="mb-6 rounded-full"
+          className="mb-6 rounded-full print:hidden"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Library
         </Button>
 
         <div className="mb-8" data-testid="activity-header">
-          <div className="flex items-start justify-between mb-4">
-            <h1 className="text-4xl sm:text-5xl font-bold text-secondary flex-1">
-              {activity.title}
-            </h1>
-            <Button
-              data-testid="generate-audio-btn"
-              onClick={generateAudio}
-              disabled={loadingAudio}
-              variant="outline"
-              className="rounded-full border-2 border-accent text-accent hover:bg-accent hover:text-white"
-            >
-              {loadingAudio ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generating...
-                </>
+          {/* Title with Edit */}
+          <div className="flex items-start justify-between mb-4 gap-4">
+            <div className="flex-1">
+              {editingTitle ? (
+                <div className="flex items-center gap-2">
+                  <Input
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    className="text-2xl font-bold h-auto py-2 rounded-xl"
+                    data-testid="edit-title-input"
+                  />
+                  <Button 
+                    onClick={handleSaveTitle} 
+                    disabled={savingTitle}
+                    size="sm"
+                    className="rounded-full"
+                    data-testid="save-title-btn"
+                  >
+                    {savingTitle ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                  </Button>
+                  <Button 
+                    onClick={() => { setEditingTitle(false); setNewTitle(activity.title); }} 
+                    size="sm"
+                    variant="ghost"
+                    className="rounded-full"
+                  >
+                    Cancel
+                  </Button>
+                </div>
               ) : (
-                <>
-                  <Volume2 className="mr-2 h-4 w-4" />
-                  Listen to Summary
-                </>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-4xl sm:text-5xl font-bold text-secondary">
+                    {activity.title}
+                  </h1>
+                  <Button 
+                    onClick={() => setEditingTitle(true)} 
+                    size="sm"
+                    variant="ghost"
+                    className="rounded-full print:hidden"
+                    data-testid="edit-title-btn"
+                  >
+                    <Edit2 className="h-4 w-4" />
+                  </Button>
+                </div>
               )}
-            </Button>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex gap-2 print:hidden">
+              <Button
+                data-testid="print-btn"
+                onClick={handlePrint}
+                variant="outline"
+                className="rounded-full border-2"
+              >
+                <Printer className="mr-2 h-4 w-4" />
+                Print
+              </Button>
+              <Button
+                data-testid="download-pdf-btn"
+                onClick={handleDownloadPDF}
+                variant="outline"
+                className="rounded-full border-2"
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Download PDF
+              </Button>
+              <Button
+                data-testid="generate-audio-btn"
+                onClick={generateAudio}
+                disabled={loadingAudio}
+                variant="outline"
+                className="rounded-full border-2 border-accent text-accent hover:bg-accent hover:text-white"
+              >
+                {loadingAudio ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Volume2 className="mr-2 h-4 w-4" />
+                    Listen
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
 
           {/* Audio Player */}
           {audioData && (
-            <Card className="rounded-3xl border-accent/50 bg-accent/5 shadow-sm mb-4" data-testid="audio-player">
+            <Card className="rounded-3xl border-accent/50 bg-accent/5 shadow-sm mb-4 print:hidden" data-testid="audio-player">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-4">
                   <Button
@@ -274,9 +507,6 @@ const ActivityDetail = () => {
               </CardContent>
             </Card>
           )}
-          <h1 className="text-4xl sm:text-5xl font-bold text-secondary mb-4">
-            {activity.title}
-          </h1>
           
           {activity.objective && (
             <div className="bg-accent/10 border-l-4 border-accent p-4 rounded-lg mb-4">
@@ -298,6 +528,15 @@ const ActivityDetail = () => {
             <span className="px-4 py-2 bg-accent/20 text-accent-foreground rounded-full text-sm font-semibold">
               Age: {activity.age}
             </span>
+            {activity.difficulty && (
+              <span className={`px-4 py-2 rounded-full text-sm font-semibold ${
+                activity.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
+                activity.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                'bg-red-100 text-red-700'
+              }`}>
+                {activity.difficulty.charAt(0).toUpperCase() + activity.difficulty.slice(1)}
+              </span>
+            )}
             {activity.estimated_time && (
               <span className="px-4 py-2 bg-secondary/20 text-secondary rounded-full text-sm font-semibold">
                 Duration: {activity.estimated_time}
@@ -311,7 +550,7 @@ const ActivityDetail = () => {
           </div>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full print:hidden">
           <TabsList className="grid w-full grid-cols-3 rounded-full p-1 bg-muted" data-testid="activity-tabs">
             <TabsTrigger value="activity" className="rounded-full" data-testid="tab-activity">
               Activity
@@ -442,7 +681,7 @@ const ActivityDetail = () => {
               {activity.learning_outcomes && activity.learning_outcomes.length > 0 && (
                 <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="outcomes-card">
                   <CardHeader>
-                    <CardTitle className="text-2xl text-secondary">Additional Learning Outcomes</CardTitle>
+                    <CardTitle className="text-2xl text-secondary">Learning Outcomes</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3">
@@ -529,12 +768,82 @@ const ActivityDetail = () => {
           <TabsContent value="feedback" className="mt-8">
             <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="feedback-form-card">
               <CardHeader>
-                <CardTitle className="text-2xl text-secondary">Submit Feedback</CardTitle>
+                <CardTitle className="text-2xl text-secondary">Activity Feedback & Learner Engagement</CardTitle>
+                <CardDescription>Share your experience and track learning outcomes</CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleFeedbackSubmit} className="space-y-6">
+                <form onSubmit={handleFeedbackSubmit} className="space-y-8">
+                  {/* Completion Status */}
                   <div>
-                    <Label className="text-base mb-2 block">Rating</Label>
+                    <Label className="text-base mb-3 block font-semibold">Completion Status *</Label>
+                    <Select 
+                      value={feedbackForm.completion_status} 
+                      onValueChange={(value) => setFeedbackForm({ ...feedbackForm, completion_status: value })}
+                    >
+                      <SelectTrigger data-testid="completion-status-select" className="h-12 rounded-xl border-2">
+                        <SelectValue placeholder="Select completion status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="completed">✅ Completed</SelectItem>
+                        <SelectItem value="partially_completed">🔄 Partially Completed</SelectItem>
+                        <SelectItem value="not_engaged">❌ Not Engaged</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* 1-5 Likert Scale Rating */}
+                  <div>
+                    <Label className="text-base mb-3 block font-semibold">Activity Rating (1-5) *</Label>
+                    <p className="text-sm text-foreground/60 mb-3">How would you rate this activity overall?</p>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5].map((num) => (
+                        <button
+                          key={num}
+                          type="button"
+                          data-testid={`likert-rating-${num}`}
+                          onClick={() => setFeedbackForm({ ...feedbackForm, likert_rating: num })}
+                          className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold transition-all ${
+                            feedbackForm.likert_rating === num 
+                              ? 'bg-primary text-white border-primary' 
+                              : 'border-border hover:border-primary'
+                          }`}
+                        >
+                          {num}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex justify-between mt-2 text-xs text-foreground/60">
+                      <span>Not helpful</span>
+                      <span>Very helpful</span>
+                    </div>
+                  </div>
+
+                  {/* Learning Outcomes Checklist */}
+                  {activity.learning_outcomes && activity.learning_outcomes.length > 0 && (
+                    <div>
+                      <Label className="text-base mb-3 block font-semibold">Learning Outcomes Achieved</Label>
+                      <p className="text-sm text-foreground/60 mb-3">Mark which learning outcomes were observed</p>
+                      <div className="space-y-3 bg-muted/50 rounded-2xl p-4">
+                        {activity.learning_outcomes.map((outcome, index) => (
+                          <div key={index} className="flex items-start space-x-3">
+                            <Checkbox
+                              id={`outcome-${index}`}
+                              data-testid={`outcome-checkbox-${index}`}
+                              checked={feedbackForm.outcomes_achieved.includes(outcome)}
+                              onCheckedChange={() => handleOutcomeToggle(outcome)}
+                            />
+                            <Label htmlFor={`outcome-${index}`} className="cursor-pointer text-foreground/80 leading-tight">
+                              {outcome}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Star Rating (kept for backward compatibility) */}
+                  <div>
+                    <Label className="text-base mb-2 block">Star Rating</Label>
                     <div className="flex gap-2">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
@@ -553,11 +862,11 @@ const ActivityDetail = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="experience" className="text-base mb-2 block">Experience</Label>
+                    <Label htmlFor="experience" className="text-base mb-2 block font-semibold">Experience *</Label>
                     <Textarea
                       id="experience"
                       data-testid="feedback-experience"
-                      placeholder="How was the overall experience?"
+                      placeholder="How was the overall experience? What worked well?"
                       value={feedbackForm.experience}
                       onChange={(e) => setFeedbackForm({ ...feedbackForm, experience: e.target.value })}
                       className="min-h-[100px] rounded-xl border-2"
@@ -566,24 +875,23 @@ const ActivityDetail = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="outcomes" className="text-base mb-2 block">Outcomes</Label>
+                    <Label htmlFor="outcomes" className="text-base mb-2 block">Additional Observations</Label>
                     <Textarea
                       id="outcomes"
                       data-testid="feedback-outcomes"
-                      placeholder="What did your child learn?"
+                      placeholder="Any additional observations about your child's learning?"
                       value={feedbackForm.outcomes}
                       onChange={(e) => setFeedbackForm({ ...feedbackForm, outcomes: e.target.value })}
                       className="min-h-[100px] rounded-xl border-2"
-                      required
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="suggestions" className="text-base mb-2 block">Suggestions (Optional)</Label>
+                    <Label htmlFor="suggestions" className="text-base mb-2 block">Suggestions for Improvement</Label>
                     <Textarea
                       id="suggestions"
                       data-testid="feedback-suggestions"
-                      placeholder="Any suggestions for improvement?"
+                      placeholder="Any suggestions to make this activity better?"
                       value={feedbackForm.suggestions}
                       onChange={(e) => setFeedbackForm({ ...feedbackForm, suggestions: e.target.value })}
                       className="min-h-[100px] rounded-xl border-2"
@@ -614,7 +922,8 @@ const ActivityDetail = () => {
             <div className="space-y-8">
               <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="upload-artifact-card">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-secondary">Upload Artifact</CardTitle>
+                  <CardTitle className="text-2xl text-secondary">Upload What They Made</CardTitle>
+                  <CardDescription>Share photos, videos, or documents of your child's work</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleFileUpload} className="space-y-4">
@@ -650,7 +959,7 @@ const ActivityDetail = () => {
                       ) : (
                         <>
                           <Upload className="mr-2 h-5 w-5" />
-                          Upload Artifact
+                          Upload
                         </>
                       )}
                     </Button>
@@ -661,7 +970,7 @@ const ActivityDetail = () => {
               {artifacts.length > 0 && (
                 <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="artifacts-list">
                   <CardHeader>
-                    <CardTitle className="text-2xl text-secondary">Uploaded Artifacts</CardTitle>
+                    <CardTitle className="text-2xl text-secondary">Uploaded Items</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid sm:grid-cols-2 gap-4">
