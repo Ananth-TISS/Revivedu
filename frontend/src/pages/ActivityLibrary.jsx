@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Loader2, Search, BookOpen, Sparkles } from "lucide-react";
+import { ArrowLeft, Loader2, Search, BookOpen, Sparkles, Users } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { toast } from "sonner";
@@ -23,12 +23,14 @@ const ActivityLibrary = () => {
   const [ageFilter, setAgeFilter] = useState("");
   const [children, setChildren] = useState([]);
   const [childFilter, setChildFilter] = useState(searchParams.get("childId") || "");
+  const [completionCounts, setCompletionCounts] = useState({});
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchChildren();
     }
     fetchActivities();
+    fetchCompletionCounts();
   }, [isAuthenticated]);
 
   useEffect(() => {
@@ -68,6 +70,15 @@ const ActivityLibrary = () => {
       toast.error("Failed to load activities");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchCompletionCounts = async () => {
+    try {
+      const response = await axios.get(`${API}/activities/stats/completions`);
+      setCompletionCounts(response.data);
+    } catch (error) {
+      console.error("Error fetching completion counts:", error);
     }
   };
 
