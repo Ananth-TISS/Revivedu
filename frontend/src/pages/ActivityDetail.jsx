@@ -820,8 +820,8 @@ const ActivityDetail = () => {
             <div className="space-y-8">
               <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="upload-artifact-card">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-secondary">Upload What They Made</CardTitle>
-                  <CardDescription>Share photos, videos, or documents of your child's work</CardDescription>
+                  <CardTitle className="text-2xl text-secondary">Upload</CardTitle>
+                  <CardDescription>Upload a photo or file of the learner's creation</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleFileUpload} className="space-y-4">
