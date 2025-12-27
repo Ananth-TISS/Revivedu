@@ -489,7 +489,7 @@ const ActivityDetail = () => {
               Learner Engagement
             </TabsTrigger>
             <TabsTrigger value="artifacts" className="rounded-full" data-testid="tab-artifacts">
-              What did they make? ({artifacts.length})
+              Upload ({artifacts.length})
             </TabsTrigger>
           </TabsList>
 
