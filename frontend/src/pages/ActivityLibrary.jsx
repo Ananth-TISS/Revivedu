@@ -219,7 +219,7 @@ const ActivityLibrary = () => {
               <Card
                 key={activity.id}
                 data-testid={`activity-card-${activity.id}`}
-                className="rounded-3xl border-border/50 shadow-sm hover:shadow-pop transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
+                className="rounded-3xl border-border/50 shadow-sm hover:shadow-pop transition-all duration-300 cursor-pointer transform hover:-translate-y-1 relative"
                 onClick={() => navigate(`/activity/${activity.id}`)}
               >
                 <CardHeader>
@@ -239,7 +239,7 @@ const ActivityLibrary = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-3">
                     {activity.subjects.slice(0, 3).map((subject) => (
                       <span
                         key={subject}
@@ -253,6 +253,13 @@ const ActivityLibrary = () => {
                         +{activity.subjects.length - 3} more
                       </span>
                     )}
+                  </div>
+                  {/* Completion Counter */}
+                  <div className="flex items-center justify-end pt-2 border-t border-border/30">
+                    <div className="flex items-center gap-1.5 text-xs text-foreground/60" data-testid={`completion-count-${activity.id}`}>
+                      <Users className="h-3.5 w-3.5" />
+                      <span>Completed by {completionCounts[activity.id] || 0} user{(completionCounts[activity.id] || 0) !== 1 ? 's' : ''}</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
