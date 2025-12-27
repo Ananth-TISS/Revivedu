@@ -130,7 +130,7 @@ const ExposureReport = () => {
                 <TrendingUp className="mr-2 h-6 w-6 text-primary" />
                 Intelligence Exposure
               </CardTitle>
-              <CardDescription>Distribution of activities across Multiple Intelligences</CardDescription>
+              <CardDescription>Distribution of activities across Multiple Intelligences Theory</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
