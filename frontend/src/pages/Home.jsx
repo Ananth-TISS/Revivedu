@@ -11,37 +11,45 @@ const Home = () => {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-          <div className="flex justify-end mb-6 gap-3">
-            {isAuthenticated ? (
-              <Button
-                data-testid="dashboard-btn"
-                onClick={() => navigate("/dashboard")}
-                className="rounded-full bg-secondary hover:bg-secondary/90 text-white"
-              >
-                Dashboard
-              </Button>
-            ) : (
-              <>
+        <div className="max-w-7xl mx-auto px-6 py-8 md:py-16">
+          {/* Header with Logo and Auth Buttons */}
+          <div className="flex items-center justify-between mb-8 md:mb-12">
+            <img 
+              src="/revivedu-logo.png" 
+              alt="ReviveEdu – Reviving the Joy of Learning"
+              className="h-12 sm:h-16 md:h-20 w-auto object-contain"
+            />
+            <div className="flex gap-2 sm:gap-3">
+              {isAuthenticated ? (
                 <Button
-                  data-testid="login-btn"
-                  variant="outline"
-                  onClick={() => navigate("/login")}
-                  className="rounded-full border-2 border-secondary text-secondary hover:bg-secondary hover:text-white"
+                  data-testid="dashboard-btn"
+                  onClick={() => navigate("/dashboard")}
+                  className="rounded-full bg-secondary hover:bg-secondary/90 text-white"
                 >
-                  <LogIn className="mr-2 h-4 w-4" />
-                  Login
+                  Dashboard
                 </Button>
-                <Button
-                  data-testid="signup-btn"
-                  onClick={() => navigate("/signup")}
-                  className="rounded-full bg-primary hover:bg-primary/90"
-                >
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  Sign Up
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button
+                    data-testid="login-btn"
+                    variant="outline"
+                    onClick={() => navigate("/login")}
+                    className="rounded-full border-2 border-secondary text-secondary hover:bg-secondary hover:text-white text-sm sm:text-base"
+                  >
+                    <LogIn className="mr-1 sm:mr-2 h-4 w-4" />
+                    Login
+                  </Button>
+                  <Button
+                    data-testid="signup-btn"
+                    onClick={() => navigate("/signup")}
+                    className="rounded-full bg-primary hover:bg-primary/90 text-sm sm:text-base"
+                  >
+                    <UserPlus className="mr-1 sm:mr-2 h-4 w-4" />
+                    Sign Up
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
