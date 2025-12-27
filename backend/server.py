@@ -267,7 +267,7 @@ async def generate_activity_with_ai(input_data: ActivityInput) -> dict:
 **Context:**
 - Age: {input_data.age} years
 - Subjects: {subjects_str}
-- Multiple Intelligences (Howard Gardner): {intelligences_str}
+- Multiple Intelligences Theory (Howard Gardner): {intelligences_str}
 - Available Materials: {tools_str}
 - Difficulty Level: {difficulty}
 
@@ -277,7 +277,7 @@ async def generate_activity_with_ai(input_data: ActivityInput) -> dict:
 **Requirements:**
 Design an activity that:
 1. Aligns with NCF-SE 2023 framework and NIOS curriculum standards
-2. Promotes Multiple Intelligences development
+2. Promotes Multiple Intelligences Theory development
 3. Develops 21st century skills (critical thinking, creativity, collaboration, communication)
 4. Incorporates Social and Emotional Learning (SEL) elements
 5. Is age-appropriate, engaging, and culturally relevant to Indian context
@@ -313,7 +313,7 @@ Make it pedagogically sound, differentiated, and holistic."""
         chat = LlmChat(
             api_key=emergent_key,
             session_id=f"activity_{uuid.uuid4()}",
-            system_message="You are an expert in educational program design with specialized knowledge of NCF-SE 2023 framework, National Institute of Open Schooling (NIOS) curriculum standards, NEP 2020, and Howard Gardner's Multiple Intelligences theory. You design pedagogically sound, differentiated learning activities for gifted and homeschooled children in India, ensuring alignment with national curricula while promoting holistic development. Always respond with valid JSON only."
+            system_message="You are an expert in educational program design with specialized knowledge of NCF-SE 2023 framework, National Institute of Open Schooling (NIOS) curriculum standards, NEP 2020, and Howard Gardner's Multiple Intelligences Theory. You design pedagogically sound, differentiated learning activities for gifted and homeschooled children in India, ensuring alignment with national curricula while promoting holistic development. Always respond with valid JSON only."
         )
         chat.with_model("openai", "gpt-4o")
         
