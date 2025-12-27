@@ -112,12 +112,12 @@ const Guide = () => {
           </AlertDescription>
         </Alert>
 
-        {/* What is Multiple Intelligences */}
+        {/* What is Multiple Intelligences Theory */}
         <Card className="rounded-3xl border-border/50 shadow-sm mb-8" data-testid="mi-section">
           <CardHeader>
-            <CardTitle className="text-3xl text-secondary">What are Multiple Intelligences?</CardTitle>
+            <CardTitle className="text-3xl text-secondary">What is Multiple Intelligences Theory?</CardTitle>
             <CardDescription className="text-base">
-              Developed by Dr. Howard Gardner at Harvard University, Multiple Intelligences theory recognizes that intelligence is not a single ability but a collection of different ways people learn and express themselves.
+              Developed by Dr. Howard Gardner at Harvard University, Multiple Intelligences Theory recognizes that intelligence is not a single ability but a collection of different ways people learn and express themselves.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
