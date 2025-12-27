@@ -99,7 +99,7 @@ const Guide = () => {
             Parent & Learner Guide
           </h1>
           <p className="text-lg text-foreground/80">
-            Understanding Multiple Intelligences, 21st-Century Skills, and How to Use Revivedu Effectively
+            Understanding Multiple Intelligences Theory, 21st-Century Skills, and How to Use Revivedu Effectively
           </p>
         </div>
 
@@ -164,7 +164,7 @@ const Guide = () => {
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
               >
-                Learn more about Multiple Intelligences (Harvard Project Zero)
+                Learn more about Multiple Intelligences Theory (Harvard Project Zero)
               </a>
             </div>
           </CardContent>
