@@ -486,7 +486,7 @@ const ActivityDetail = () => {
               Activity
             </TabsTrigger>
             <TabsTrigger value="feedback" className="rounded-full" data-testid="tab-feedback">
-              Activity Feedback & Learner Engagement
+              Learner Engagement
             </TabsTrigger>
             <TabsTrigger value="artifacts" className="rounded-full" data-testid="tab-artifacts">
               What did they make? ({artifacts.length})
