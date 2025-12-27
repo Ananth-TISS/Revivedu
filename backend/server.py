@@ -555,6 +555,32 @@ async def get_activities(
         logger.error(f"Error fetching activities: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============ Activity Completion Stats ============
+class ActivityCompletionStats(BaseModel):
+    activity_id: str
+    completion_count: int
+
+@api_router.get("/activities/stats/completions")
+async def get_activity_completions():
+    """Get completion counts for all activities"""
+    try:
+        # Aggregate feedbacks by activity_id where completion_status is "completed"
+        pipeline = [
+            {"$match": {"completion_status": "completed"}},
+            {"$group": {"_id": "$activity_id", "count": {"$sum": 1}}}
+        ]
+        
+        results = await db.feedbacks.aggregate(pipeline).to_list(1000)
+        
+        # Convert to dict for easy lookup
+        completion_counts = {item["_id"]: item["count"] for item in results if item["_id"]}
+        
+        return completion_counts
+        
+    except Exception as e:
+        logger.error(f"Error fetching completion stats: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/activities/{activity_id}", response_model=ActivityResponse)
 async def get_activity(activity_id: str):
     try:
