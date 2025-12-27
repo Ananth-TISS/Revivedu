@@ -358,10 +358,10 @@ const ActivityGenerator = () => {
               </CardContent>
             </Card>
 
-            {/* Multiple Intelligences */}
+            {/* Multiple Intelligences Theory */}
             <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="intelligences-card">
               <CardHeader>
-                <CardTitle className="text-2xl text-secondary">Multiple Intelligences</CardTitle>
+                <CardTitle className="text-2xl text-secondary">Multiple Intelligences Theory</CardTitle>
                 <CardDescription>Select intelligences to engage (choose at least one)</CardDescription>
               </CardHeader>
               <CardContent>
