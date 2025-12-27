@@ -698,7 +698,7 @@ const ActivityDetail = () => {
           <TabsContent value="feedback" className="mt-8">
             <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="feedback-form-card">
               <CardHeader>
-                <CardTitle className="text-2xl text-secondary">Activity Feedback & Learner Engagement</CardTitle>
+                <CardTitle className="text-2xl text-secondary">Learner Engagement</CardTitle>
                 <CardDescription>Share your experience and track learning outcomes</CardDescription>
               </CardHeader>
               <CardContent>
