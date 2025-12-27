@@ -67,7 +67,7 @@ const Signup = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <Label htmlFor="name" className="text-base mb-2 block">Full Name</Label>
+                <Label htmlFor="name" className="text-base mb-2 block">Parent/Guardian Full Name</Label>
                 <Input
                   id="name"
                   data-testid="name-input"
@@ -81,7 +81,7 @@ const Signup = () => {
               </div>
 
               <div>
-                <Label htmlFor="email" className="text-base mb-2 block">Email</Label>
+                <Label htmlFor="email" className="text-base mb-2 block">Parent/Guardian Email</Label>
                 <Input
                   id="email"
                   data-testid="email-input"
