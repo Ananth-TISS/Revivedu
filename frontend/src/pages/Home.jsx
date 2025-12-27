@@ -131,7 +131,7 @@ const Home = () => {
           </h2>
           <div className="max-w-4xl mx-auto space-y-6 text-foreground/80 text-lg mb-12">
             <p>
-              Revivedu integrates <strong>Howard Gardner's Multiple Intelligence Theory</strong> to provide a holistic approach to education, allowing parents and teachers to understand children's unique intelligence profiles and create tailored learning pathways.
+              Revivedu integrates <strong>Howard Gardner's Multiple Intelligences Theory</strong> to provide a holistic approach to education, allowing parents and teachers to understand children's unique intelligence profiles and create tailored learning pathways.
             </p>
             <p>
               The platform offers structured access to the <strong>NIOS curriculum</strong> for grades 10 and 12 while supplementing it with AI-generated activities targeting specific intelligences.
