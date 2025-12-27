@@ -143,7 +143,7 @@ const Home = () => {
               <div className="bg-accent/20 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                 <Brain className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-secondary mb-4">Multiple Intelligences</h3>
+              <h3 className="text-xl font-bold text-secondary mb-4">Multiple Intelligences Theory</h3>
               <p className="text-foreground/80">
                 Activities targeting all 8 intelligence types, moving beyond traditional methods that favor only 2-3 types.
               </p>
@@ -286,7 +286,7 @@ const Home = () => {
               <div className="bg-accent/20 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                 <Users className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-secondary mb-4">8 Multiple Intelligences</h3>
+              <h3 className="text-xl font-bold text-secondary mb-4">8 Multiple Intelligences Theory</h3>
               <p className="text-foreground/80">
                 Activities designed around all 8 intelligence types for holistic development.
               </p>
