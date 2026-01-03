@@ -555,6 +555,62 @@ async def get_activities(
         logger.error(f"Error fetching activities: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============ Similar Activities Search ============
+class SimilarActivitySearch(BaseModel):
+    age: int
+    subjects: List[str]
+    intelligences: List[str] = []
+    difficulty: str = "medium"
+
+@api_router.post("/activities/similar", response_model=List[ActivityResponse])
+async def find_similar_activities(search: SimilarActivitySearch):
+    """Find existing activities with similar parameters"""
+    try:
+        # Build query to find similar activities
+        # Allow +/- 2 years of age flexibility
+        age_range = {"$gte": search.age - 2, "$lte": search.age + 2}
+        
+        # Find activities that match at least one subject
+        query = {
+            "age": age_range,
+            "subjects": {"$in": search.subjects}
+        }
+        
+        # Optionally filter by difficulty
+        if search.difficulty:
+            query["difficulty"] = search.difficulty
+        
+        activities = await db.activities.find(query, {"_id": 0}).sort("created_at", -1).to_list(20)
+        
+        # Score and sort by similarity
+        scored_activities = []
+        for activity in activities:
+            score = 0
+            # Score by subject overlap
+            subject_overlap = len(set(activity.get("subjects", [])) & set(search.subjects))
+            score += subject_overlap * 2
+            
+            # Score by intelligence overlap
+            if search.intelligences:
+                intel_overlap = len(set(activity.get("intelligences", [])) & set(search.intelligences))
+                score += intel_overlap
+            
+            # Exact age match bonus
+            if activity.get("age") == search.age:
+                score += 3
+            
+            scored_activities.append((score, activity))
+        
+        # Sort by score (highest first) and take top 5
+        scored_activities.sort(key=lambda x: x[0], reverse=True)
+        top_activities = [act for score, act in scored_activities[:5] if score > 0]
+        
+        return [ActivityResponse(**activity) for activity in top_activities]
+        
+    except Exception as e:
+        logger.error(f"Error finding similar activities: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # ============ Activity Completion Stats ============
 class ActivityCompletionStats(BaseModel):
     activity_id: str
