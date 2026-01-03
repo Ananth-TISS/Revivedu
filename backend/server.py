@@ -767,17 +767,26 @@ async def get_feedback(activity_id: str):
 async def upload_artifact(
     activity_id: str = Form(...),
     child_id: Optional[str] = Form(None),
+    title: Optional[str] = Form(None),
+    include_in_portfolio: Optional[str] = Form("false"),
     file: UploadFile = File(...)
 ):
     try:
         content = await file.read()
         file_data = base64.b64encode(content).decode('utf-8')
         
+        # Convert string to boolean
+        portfolio_flag = include_in_portfolio.lower() == "true"
+        
         artifact = Artifact(
             activity_id=activity_id,
             child_id=child_id,
+            title=title,
             filename=file.filename,
             content_type=file.content_type,
+            file_data=file_data,
+            include_in_portfolio=portfolio_flag
+        )
             file_data=file_data
         )
         
