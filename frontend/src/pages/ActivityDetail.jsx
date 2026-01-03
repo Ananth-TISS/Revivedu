@@ -287,33 +287,42 @@ const ActivityDetail = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("activity_id", id);
+      formData.append("title", artifactTitle);
+      formData.append("include_in_portfolio", includeInPortfolio.toString());
       if (activity?.child_id) {
         formData.append("child_id", activity.child_id);
       }
       
-      await axios.post(`${API}/artifacts`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      });
+      const headers = isAuthenticated 
+        ? { ...getAuthHeaders(), "Content-Type": "multipart/form-data" }
+        : { "Content-Type": "multipart/form-data" };
       
-      toast.success("Artifact uploaded successfully!");
+      await axios.post(`${API}/artifacts`, formData, { headers });
+      
+      toast.success("Artefact uploaded successfully!");
       setSelectedFile(null);
+      setArtifactTitle("");
+      setIncludeInPortfolio(false);
       fetchArtifacts();
     } catch (error) {
       console.error("Error uploading artifact:", error);
-      toast.error("Failed to upload artifact");
+      toast.error("Failed to upload artefact");
     } finally {
       setUploadingArtifact(false);
     }
   };
 
-  const handleOutcomeToggle = (outcome) => {
+  // Handle outcome assessment toggle
+  const handleOutcomeAssessment = (outcome, field, value) => {
     setFeedbackForm(prev => ({
       ...prev,
-      outcomes_achieved: prev.outcomes_achieved.includes(outcome)
-        ? prev.outcomes_achieved.filter(o => o !== outcome)
-        : [...prev.outcomes_achieved, outcome]
+      outcome_assessments: {
+        ...prev.outcome_assessments,
+        [outcome]: {
+          ...prev.outcome_assessments[outcome],
+          [field]: value
+        }
+      }
     }));
   };
 
