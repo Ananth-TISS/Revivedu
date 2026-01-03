@@ -122,7 +122,7 @@ const ExposureReport = () => {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>${report.child_name}'s Portfolio Sheet - Revivedu</title>
+        <title>${report.child_name}'s Portfolio - Revivedu</title>
         <style>
           body { font-family: system-ui, -apple-system, sans-serif; padding: 40px; max-width: 900px; margin: 0 auto; }
           h1 { color: #1a365d; margin-bottom: 10px; }
