@@ -787,8 +787,6 @@ async def upload_artifact(
             file_data=file_data,
             include_in_portfolio=portfolio_flag
         )
-            file_data=file_data
-        )
         
         doc = artifact.model_dump()
         doc['created_at'] = doc['created_at'].isoformat()
