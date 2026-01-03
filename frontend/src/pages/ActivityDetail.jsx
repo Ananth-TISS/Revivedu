@@ -821,28 +821,104 @@ const ActivityDetail = () => {
                     </div>
                   </div>
 
-                  {/* Learning Outcomes Checklist */}
-                  {activity.learning_outcomes && activity.learning_outcomes.length > 0 && (
+                  {/* Learning Outcomes Assessment with Outcome Analysis */}
+                  {activity.outcome_analysis && activity.outcome_analysis.length > 0 ? (
+                    <div>
+                      <Label className="text-base mb-3 block font-semibold">Learning Outcomes Assessment</Label>
+                      <p className="text-sm text-foreground/60 mb-4">Review each outcome, check the evidence cues, and mark whether the learner achieved it</p>
+                      <div className="space-y-6">
+                        {activity.outcome_analysis.map((item, index) => {
+                          const assessment = feedbackForm.outcome_assessments[item.outcome] || { achieved: false, notes: '' };
+                          return (
+                            <div key={index} className="bg-muted/50 rounded-2xl p-4 border border-border/50">
+                              <div className="flex items-start justify-between gap-4 mb-3">
+                                <div className="flex-1">
+                                  <h4 className="font-semibold text-secondary">{item.outcome}</h4>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => handleOutcomeAssessment(item.outcome, 'achieved', !assessment.achieved)}
+                                  className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 transition-all ${
+                                    assessment.achieved 
+                                      ? 'bg-green-100 border-green-500 text-green-700' 
+                                      : 'bg-muted border-border hover:border-primary'
+                                  }`}
+                                  data-testid={`outcome-toggle-${index}`}
+                                >
+                                  {assessment.achieved ? (
+                                    <>
+                                      <CircleCheck className="h-5 w-5" />
+                                      <span className="font-medium">Achieved</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Circle className="h-5 w-5" />
+                                      <span className="font-medium">Not Yet</span>
+                                    </>
+                                  )}
+                                </button>
+                              </div>
+                              
+                              {/* Success Criteria */}
+                              <div className="mb-3 p-3 bg-background rounded-xl">
+                                <p className="text-xs font-semibold text-foreground/60 uppercase mb-1">What "Good Job" Looks Like:</p>
+                                <p className="text-sm text-foreground/80">{item.criteria}</p>
+                              </div>
+                              
+                              {/* Evidence Cues */}
+                              {item.evidence_cues && item.evidence_cues.length > 0 && (
+                                <div className="mb-3">
+                                  <p className="text-xs font-semibold text-foreground/60 uppercase mb-2">Evidence to Look For:</p>
+                                  <ul className="space-y-1.5">
+                                    {item.evidence_cues.map((cue, cueIndex) => (
+                                      <li key={cueIndex} className="flex items-start gap-2 text-sm text-foreground/80">
+                                        <CheckCircle2 className={`h-4 w-4 flex-shrink-0 mt-0.5 ${assessment.achieved ? 'text-green-500' : 'text-foreground/30'}`} />
+                                        {cue}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                              
+                              {/* Optional Notes */}
+                              <div>
+                                <Label className="text-xs text-foreground/60 mb-1 block">Notes (optional)</Label>
+                                <Input
+                                  placeholder="Add any observations about this outcome..."
+                                  value={assessment.notes || ''}
+                                  onChange={(e) => handleOutcomeAssessment(item.outcome, 'notes', e.target.value)}
+                                  className="h-9 text-sm rounded-lg"
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : activity.learning_outcomes && activity.learning_outcomes.length > 0 ? (
                     <div>
                       <Label className="text-base mb-3 block font-semibold">Learning Outcomes Achieved</Label>
                       <p className="text-sm text-foreground/60 mb-3">Mark which learning outcomes were observed</p>
                       <div className="space-y-3 bg-muted/50 rounded-2xl p-4">
-                        {activity.learning_outcomes.map((outcome, index) => (
-                          <div key={index} className="flex items-start space-x-3">
-                            <Checkbox
-                              id={`outcome-${index}`}
-                              data-testid={`outcome-checkbox-${index}`}
-                              checked={feedbackForm.outcomes_achieved.includes(outcome)}
-                              onCheckedChange={() => handleOutcomeToggle(outcome)}
-                            />
-                            <Label htmlFor={`outcome-${index}`} className="cursor-pointer text-foreground/80 leading-tight">
-                              {outcome}
-                            </Label>
-                          </div>
-                        ))}
+                        {activity.learning_outcomes.map((outcome, index) => {
+                          const assessment = feedbackForm.outcome_assessments[outcome] || { achieved: false };
+                          return (
+                            <div key={index} className="flex items-start space-x-3">
+                              <Checkbox
+                                id={`outcome-${index}`}
+                                data-testid={`outcome-checkbox-${index}`}
+                                checked={assessment.achieved}
+                                onCheckedChange={(checked) => handleOutcomeAssessment(outcome, 'achieved', checked)}
+                              />
+                              <Label htmlFor={`outcome-${index}`} className="cursor-pointer text-foreground/80 leading-tight">
+                                {outcome}
+                              </Label>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
-                  )}
+                  ) : null}
 
                   <div>
                     <Label htmlFor="experience" className="text-base mb-2 block font-semibold">Experience *</Label>
