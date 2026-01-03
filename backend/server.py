@@ -208,6 +208,29 @@ class ArtifactResponse(BaseModel):
     file_data: str
     created_at: str
 
+# ============ Portfolio Image Models ============
+class PortfolioImage(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    child_id: str
+    user_id: str
+    filename: str
+    content_type: str
+    file_data: str
+    caption: Optional[str] = None
+    approved: bool = True
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class PortfolioImageResponse(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str
+    child_id: str
+    filename: str
+    content_type: str
+    file_data: str
+    caption: Optional[str] = None
+    created_at: str
+
 class ExposureReport(BaseModel):
     child_id: str
     child_name: str
