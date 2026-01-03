@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ArrowLeft, Loader2, CheckCircle2, Upload, Lightbulb, Volume2, Play, Pause, Printer, Download, Info } from "lucide-react";
+import { ArrowLeft, Loader2, CheckCircle2, Upload, Lightbulb, Volume2, Play, Pause, Printer, Download, Info, CircleCheck, Circle } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { toast } from "sonner";
 
@@ -19,24 +20,27 @@ const API = `${BACKEND_URL}/api`;
 const ActivityDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isAuthenticated, getAuthHeaders } = useAuth();
   const [loading, setLoading] = useState(true);
   const [activity, setActivity] = useState(null);
   const [activeTab, setActiveTab] = useState("activity");
   const [artifacts, setArtifacts] = useState([]);
   
-  // Enhanced Feedback form with Likert scale and learning outcomes checklist
+  // Enhanced Feedback form with Likert scale and outcome assessments
   const [feedbackForm, setFeedbackForm] = useState({
     experience: "",
     additional_comments: "",
     completion_status: "",
     likert_rating: 0,
-    outcomes_achieved: []
+    outcome_assessments: {} // Maps outcome -> {achieved: bool, notes: string}
   });
   const [submittingFeedback, setSubmittingFeedback] = useState(false);
   
-  // Artifact upload
+  // Artifact upload with title and portfolio consent
   const [uploadingArtifact, setUploadingArtifact] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [artifactTitle, setArtifactTitle] = useState("");
+  const [includeInPortfolio, setIncludeInPortfolio] = useState(false);
   
   // Audio state
   const [audioData, setAudioData] = useState(null);
