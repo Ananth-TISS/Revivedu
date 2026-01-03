@@ -630,16 +630,69 @@ const ActivityDetail = () => {
                 <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="skills-card">
                   <CardHeader>
                     <CardTitle className="text-2xl text-secondary">Skills Developed</CardTitle>
+                    <CardDescription>Skills directly exercised by this activity</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex flex-wrap gap-3">
-                      {activity.skills.map((skill, index) => (
-                        <span
-                          key={index}
-                          className="px-6 py-3 bg-secondary/10 text-secondary rounded-full font-semibold"
-                        >
-                          {skill}
-                        </span>
+                    <TooltipProvider>
+                      <div className="flex flex-wrap gap-3">
+                        {activity.skills.map((skill, index) => (
+                          <div key={index} className="relative group">
+                            <span className="px-6 py-3 bg-secondary/10 text-secondary rounded-full font-semibold inline-flex items-center gap-2">
+                              {skill}
+                              {activity.skill_explanations && activity.skill_explanations[skill] && (
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <button type="button" className="text-secondary/60 hover:text-secondary">
+                                      <Info className="h-4 w-4" />
+                                    </button>
+                                  </TooltipTrigger>
+                                  <TooltipContent className="max-w-xs">
+                                    <p className="font-semibold mb-1">How this skill is developed:</p>
+                                    <p className="text-sm">{activity.skill_explanations[skill]}</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              )}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </TooltipProvider>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Outcome Analysis Section */}
+              {activity.outcome_analysis && activity.outcome_analysis.length > 0 && (
+                <Card className="rounded-3xl border-border/50 shadow-sm bg-gradient-to-r from-primary/5 to-accent/5" data-testid="outcome-analysis-card">
+                  <CardHeader>
+                    <CardTitle className="text-2xl text-secondary">Outcome Analysis</CardTitle>
+                    <CardDescription>Track whether learning outcomes were achieved</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-6">
+                      {activity.outcome_analysis.map((item, index) => (
+                        <div key={index} className="p-4 bg-background rounded-2xl border border-border/50">
+                          <h4 className="font-semibold text-secondary mb-2">{item.outcome}</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <p className="text-sm font-medium text-foreground/60 mb-1">Success Criteria:</p>
+                              <p className="text-foreground/80">{item.criteria}</p>
+                            </div>
+                            {item.evidence_cues && item.evidence_cues.length > 0 && (
+                              <div>
+                                <p className="text-sm font-medium text-foreground/60 mb-1">Evidence Cues (what "good job" looks like):</p>
+                                <ul className="space-y-1">
+                                  {item.evidence_cues.map((cue, cueIndex) => (
+                                    <li key={cueIndex} className="flex items-start gap-2 text-sm text-foreground/80">
+                                      <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                                      {cue}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </CardContent>
