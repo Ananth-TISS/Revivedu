@@ -171,15 +171,18 @@ frontend:
 
   - task: "Dashboard Calendar/Streak Widget"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/pages/dashboard/Dashboard.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added ActivityCalendar component with full month view. Added streak display. Added summary stats cards (activities, artifacts, streaks)."
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL ISSUE: Dashboard shows 'Failed to load child profiles' error. Backend returns 401 Unauthorized for /api/children endpoint. Authentication token may be expired or invalid. This blocks Portfolio page testing and child profile functionality."
 
   - task: "Difficulty Selector in Activity Generator"
     implemented: true
