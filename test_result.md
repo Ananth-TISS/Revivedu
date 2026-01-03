@@ -204,15 +204,18 @@ frontend:
 
   - task: "Activity Detail - Print/Download PDF"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/pages/ActivityDetail.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added Print and Download PDF buttons. Download opens new window with formatted activity content for printing to PDF."
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Print and Download PDF buttons are visible and functional on Activity Detail page. Download button successfully opens formatted content for PDF generation."
 
   - task: "Enhanced Feedback Tab"
     implemented: true
