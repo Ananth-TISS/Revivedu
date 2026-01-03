@@ -443,66 +443,16 @@ const ExposureReport = () => {
             </CardContent>
           </Card>
 
-          {/* Portfolio Gallery Section */}
-          <Card className="rounded-3xl border-border/50 shadow-sm print:hidden" data-testid="portfolio-gallery-card">
+          {/* Portfolio Gallery Section - Shows images uploaded via activities */}
+          <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="portfolio-gallery-card">
             <CardHeader>
               <CardTitle className="text-2xl text-secondary flex items-center">
                 <Image className="mr-2 h-6 w-6 text-primary" />
                 Portfolio Gallery
               </CardTitle>
-              <CardDescription>Upload photos of your child's work to showcase in their portfolio</CardDescription>
+              <CardDescription>Images uploaded from activities that were marked for portfolio inclusion</CardDescription>
             </CardHeader>
             <CardContent>
-              {/* Upload Form */}
-              <form onSubmit={handleImageUpload} className="mb-6 p-4 bg-muted/50 rounded-2xl">
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="portfolio-image" className="text-base mb-2 block">
-                      Select Image
-                    </Label>
-                    <Input
-                      id="portfolio-image"
-                      data-testid="portfolio-image-input"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => setSelectedFile(e.target.files[0])}
-                      className="h-12 rounded-xl border-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="image-caption" className="text-base mb-2 block">
-                      Caption (Optional)
-                    </Label>
-                    <Textarea
-                      id="image-caption"
-                      data-testid="image-caption-input"
-                      placeholder="Describe what this image shows..."
-                      value={imageCaption}
-                      onChange={(e) => setImageCaption(e.target.value)}
-                      className="rounded-xl border-2"
-                    />
-                  </div>
-                  <Button
-                    data-testid="upload-portfolio-image-btn"
-                    type="submit"
-                    disabled={uploadingImage || !selectedFile}
-                    className="w-full rounded-full bg-primary hover:bg-primary/90"
-                  >
-                    {uploadingImage ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Uploading...
-                      </>
-                    ) : (
-                      <>
-                        <Upload className="mr-2 h-4 w-4" />
-                        Upload Image
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </form>
-
               {/* Image Gallery */}
               {portfolioImages.length > 0 ? (
                 <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -510,22 +460,13 @@ const ExposureReport = () => {
                     <div key={img.id} className="relative group">
                       <img
                         src={`data:${img.content_type};base64,${img.file_data}`}
-                        alt={img.caption || "Portfolio image"}
+                        alt={img.title || img.caption || "Portfolio image"}
                         className="w-full h-48 object-cover rounded-xl"
                       />
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
-                        <Button
-                          data-testid={`delete-image-${img.id}`}
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleDeleteImage(img.id)}
-                          className="rounded-full"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                      {img.caption && (
-                        <p className="text-sm text-foreground/60 mt-2 text-center">{img.caption}</p>
+                      {(img.title || img.caption) && (
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3 rounded-b-xl">
+                          <p className="text-white text-sm font-medium">{img.title || img.caption}</p>
+                        </div>
                       )}
                     </div>
                   ))}
@@ -533,7 +474,8 @@ const ExposureReport = () => {
               ) : (
                 <div className="text-center py-8 text-foreground/60">
                   <Image className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>No images uploaded yet. Add photos to showcase your child's work!</p>
+                  <p className="mb-2">No portfolio images yet.</p>
+                  <p className="text-sm">Upload images in the activity "Upload" section and check "Include in Portfolio" to add them here.</p>
                 </div>
               )}
             </CardContent>
