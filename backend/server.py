@@ -129,10 +129,12 @@ class Activity(BaseModel):
     reflection_question: str
     learning_outcomes: List[str] = []
     skills: List[str] = []
+    skill_explanations: dict = {}  # Maps skill -> explanation of how activity develops it
     estimated_time: Optional[str] = None
     extensions: List[str] = []
     discussion_questions: List[str] = []
     real_world_connection: Optional[str] = None
+    outcome_analysis: List[dict] = []  # List of {outcome, criteria, evidence_cues}
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class ActivityResponse(BaseModel):
@@ -155,10 +157,12 @@ class ActivityResponse(BaseModel):
     reflection_question: Optional[str] = None
     learning_outcomes: List[str] = []
     skills: List[str] = []
+    skill_explanations: Optional[dict] = {}
     estimated_time: Optional[str] = None
     extensions: List[str] = []
     discussion_questions: List[str] = []
     real_world_connection: Optional[str] = None
+    outcome_analysis: Optional[List[dict]] = []
     created_at: str
 
 class FeedbackInput(BaseModel):
