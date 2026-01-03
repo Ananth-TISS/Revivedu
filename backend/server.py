@@ -1017,6 +1017,90 @@ async def get_exposure_report(child_id: str, current_user: dict = Depends(get_cu
         logger.error(f"Error generating exposure report: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============ Portfolio Image Routes ============
+@api_router.post("/portfolio/images")
+async def upload_portfolio_image(
+    file: UploadFile = File(...),
+    child_id: str = Form(...),
+    caption: Optional[str] = Form(None),
+    current_user: dict = Depends(get_current_user)
+):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        # Verify child belongs to user
+        child = await db.children.find_one({"id": child_id, "user_id": current_user["id"]}, {"_id": 0})
+        if not child:
+            raise HTTPException(status_code=404, detail="Child profile not found")
+        
+        # Read file content
+        content = await file.read()
+        file_data = base64.b64encode(content).decode('utf-8')
+        
+        portfolio_image = PortfolioImage(
+            child_id=child_id,
+            user_id=current_user["id"],
+            filename=file.filename,
+            content_type=file.content_type,
+            file_data=file_data,
+            caption=caption
+        )
+        
+        doc = portfolio_image.model_dump()
+        doc['created_at'] = doc['created_at'].isoformat()
+        await db.portfolio_images.insert_one(doc)
+        
+        return PortfolioImageResponse(
+            id=doc['id'],
+            child_id=doc['child_id'],
+            filename=doc['filename'],
+            content_type=doc['content_type'],
+            file_data=doc['file_data'],
+            caption=doc['caption'],
+            created_at=doc['created_at']
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error uploading portfolio image: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/portfolio/images/{child_id}", response_model=List[PortfolioImageResponse])
+async def get_portfolio_images(child_id: str, current_user: dict = Depends(get_current_user)):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        images = await db.portfolio_images.find(
+            {"child_id": child_id, "user_id": current_user["id"], "approved": True},
+            {"_id": 0}
+        ).sort("created_at", -1).to_list(100)
+        
+        return [PortfolioImageResponse(**img) for img in images]
+        
+    except Exception as e:
+        logger.error(f"Error fetching portfolio images: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/portfolio/images/{image_id}")
+async def delete_portfolio_image(image_id: str, current_user: dict = Depends(get_current_user)):
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        result = await db.portfolio_images.delete_one({"id": image_id, "user_id": current_user["id"]})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Image not found")
+        return {"message": "Image deleted successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting portfolio image: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
