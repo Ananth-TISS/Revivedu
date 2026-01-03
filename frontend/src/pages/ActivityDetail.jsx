@@ -975,7 +975,22 @@ const ActivityDetail = () => {
                 <CardContent>
                   <form onSubmit={handleFileUpload} className="space-y-4">
                     <div>
-                      <Label htmlFor="file" className="text-base mb-2 block">
+                      <Label htmlFor="artifact-title" className="text-base mb-2 block font-semibold">
+                        Title *
+                      </Label>
+                      <Input
+                        id="artifact-title"
+                        data-testid="artifact-title-input"
+                        type="text"
+                        placeholder="Give this artefact a descriptive title"
+                        value={artifactTitle}
+                        onChange={(e) => setArtifactTitle(e.target.value)}
+                        className="h-12 rounded-xl border-2"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="file" className="text-base mb-2 block font-semibold">
                         Choose file (photos, videos, documents)
                       </Label>
                       <Input
@@ -992,10 +1007,33 @@ const ActivityDetail = () => {
                         </p>
                       )}
                     </div>
+                    
+                    {/* Portfolio Consent - Only for signed-in users */}
+                    {isAuthenticated && (
+                      <div className="p-4 bg-accent/10 rounded-xl border border-accent/30">
+                        <div className="flex items-start space-x-3">
+                          <Checkbox
+                            id="include-in-portfolio"
+                            data-testid="portfolio-consent-checkbox"
+                            checked={includeInPortfolio}
+                            onCheckedChange={(checked) => setIncludeInPortfolio(checked)}
+                          />
+                          <div>
+                            <Label htmlFor="include-in-portfolio" className="cursor-pointer font-semibold text-secondary">
+                              Include in Portfolio
+                            </Label>
+                            <p className="text-sm text-foreground/60 mt-1">
+                              By checking this, you consent to include this image in your child's Portfolio for showcasing their work and achievements.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    
                     <Button
                       data-testid="upload-artifact-btn"
                       type="submit"
-                      disabled={uploadingArtifact || !selectedFile}
+                      disabled={uploadingArtifact || !selectedFile || !artifactTitle.trim()}
                       className="w-full rounded-full py-6 text-lg font-bold bg-primary hover:bg-primary/90"
                     >
                       {uploadingArtifact ? (
