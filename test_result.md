@@ -261,15 +261,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Dashboard Stats API"
-    - "Difficulty Selector in Activity Generator"
-    - "Activity Detail - Rename Feature"
-    - "Enhanced Feedback Tab"
-    - "Persistent Navigation Header"
     - "Dashboard Calendar/Streak Widget"
-  stuck_tasks: []
-  test_all: true
-  test_priority: "high_first"
+  stuck_tasks:
+    - "Dashboard Calendar/Streak Widget"
+  test_all: false
+  test_priority: "stuck_first"
 
 agent_communication:
   - agent: "main"
