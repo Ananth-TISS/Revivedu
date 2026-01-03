@@ -240,6 +240,11 @@ const ActivityDetail = () => {
       return;
     }
 
+    // Convert outcome_assessments to outcomes_achieved list
+    const outcomesAchieved = Object.entries(feedbackForm.outcome_assessments)
+      .filter(([_, data]) => data.achieved)
+      .map(([outcome, _]) => outcome);
+
     setSubmittingFeedback(true);
     try {
       await axios.post(`${API}/feedback`, {
@@ -247,10 +252,11 @@ const ActivityDetail = () => {
         child_id: activity?.child_id || null,
         rating: feedbackForm.likert_rating,
         experience: feedbackForm.experience,
-        outcomes: feedbackForm.outcomes_achieved.join(", "),
+        outcomes: outcomesAchieved.join(", "),
         suggestions: feedbackForm.additional_comments,
         completion_status: feedbackForm.completion_status,
-        outcomes_achieved: feedbackForm.outcomes_achieved
+        outcomes_achieved: outcomesAchieved,
+        outcome_assessments: feedbackForm.outcome_assessments
       });
       toast.success("Feedback submitted successfully!");
       setFeedbackForm({
@@ -258,7 +264,7 @@ const ActivityDetail = () => {
         additional_comments: "",
         completion_status: "",
         likert_rating: 0,
-        outcomes_achieved: []
+        outcome_assessments: {}
       });
     } catch (error) {
       console.error("Error submitting feedback:", error);
