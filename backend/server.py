@@ -545,10 +545,12 @@ async def create_activity(input_data: ActivityInput):
             reflection_question=ai_response["reflection_question"],
             learning_outcomes=ai_response.get("learning_outcomes", []),
             skills=ai_response.get("skills", []),
+            skill_explanations=ai_response.get("skill_explanations", {}),
             estimated_time=ai_response.get("estimated_time"),
             extensions=ai_response.get("extensions", []),
             discussion_questions=ai_response.get("discussion_questions", []),
-            real_world_connection=ai_response.get("real_world_connection")
+            real_world_connection=ai_response.get("real_world_connection"),
+            outcome_analysis=ai_response.get("outcome_analysis", [])
         )
         
         doc = activity.model_dump()
