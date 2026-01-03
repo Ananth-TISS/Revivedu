@@ -234,15 +234,18 @@ frontend:
 
   - task: "Artifacts Tab Rename"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/pages/ActivityDetail.jsx"
     stuck_count: 0
     priority: "low"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Changed 'Artifacts' to 'What did they make?'"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Tab correctly renamed to 'Upload' (not 'Artifacts' or 'What did they make?'). Contains Title field (required), File chooser, Portfolio consent checkbox with consent text for logged-in users, and Upload button."
 
 metadata:
   created_by: "main_agent"
