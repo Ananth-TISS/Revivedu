@@ -289,30 +289,57 @@ Design an activity that:
 7. Supports both gifted learners and homeschooling needs
 8. Matches the specified difficulty level: {difficulty}
 
+**CRITICAL INSTRUCTION REQUIREMENTS:**
+- Each instruction step MUST be specific, actionable, and unambiguous
+- Do NOT use vague phrases like "research online" or "use internet sources"
+- Each step should include: what to do, how to do it, materials needed, and expected time
+- Break complex tasks into smaller, numbered sub-steps
+- Include specific examples, quantities, and measurements where applicable
+
 **Required Format (respond ONLY with valid JSON):**
 {{
   "title": "Concise, engaging activity name",
   "objective": "Clear, measurable learning goals aligned with developmental needs and curricular standards",
   "description": "Brief overview (2-3 sentences) summarizing purpose and context",
   "expected_outcome": "Specific skills, knowledge, or attitudes the child will develop",
-  "materials_required": ["Material 1", "Material 2", ...],
+  "materials_required": ["Specific Material 1 with quantity", "Specific Material 2", ...],
   "curricular_areas": {{
     "ncf_se_2023": ["Relevant domain/area from NCF-SE 2023"],
     "nios_subjects": ["Relevant NIOS subject alignment for grades 10/12"],
     "learning_domains": ["Cognitive", "Affective", "Psychomotor", "Social-Emotional"]
   }},
-  "instructions": ["Detailed Step 1", "Detailed Step 2", ...],
-  "success_metrics": ["Quantifiable indicator 1", "Observable behavior 2", ...],
+  "instructions": [
+    "Step 1: [Specific action] - [Time: X minutes] - Materials: [list specific items]. [Detailed explanation of what to do and how]",
+    "Step 2: [Specific action] - [Time: X minutes] - Materials: [list specific items]. [Detailed explanation with examples]",
+    "... continue with detailed, specific steps"
+  ],
+  "success_metrics": ["Specific, observable indicator 1", "Measurable behavior 2", ...],
   "reflection_question": "Thought-provoking prompt for critical thinking and self-assessment",
   "learning_outcomes": ["Specific learning outcome 1", "Specific learning outcome 2", ...],
-  "skills": ["21st century skill 1", "SEL competency 2", ...],
-  "estimated_time": "Duration range (e.g., 45-60 minutes)",
-  "extensions": ["Advanced challenge 1", "Alternative approach 2", ...],
-  "discussion_questions": ["Question for deeper reflection 1", "Question 2", ...],
-  "real_world_connection": "How this activity connects to real-world applications and Indian context"
+  "skills": ["Skill 1", "Skill 2", ...],
+  "skill_explanations": {{
+    "Skill 1": "How this activity specifically develops this skill through [specific activity elements]",
+    "Skill 2": "How this activity exercises this skill by [specific mechanisms]"
+  }},
+  "estimated_time": "Total duration (e.g., 45-60 minutes)",
+  "extensions": ["Advanced challenge 1 with specific instructions", "Alternative approach 2", ...],
+  "discussion_questions": ["Deep reflection question 1", "Question 2", ...],
+  "real_world_connection": "Specific real-world application relevant to Indian context",
+  "outcome_analysis": [
+    {{
+      "outcome": "Learning outcome 1",
+      "criteria": "What constitutes successful achievement - be specific",
+      "evidence_cues": ["Observable evidence 1 (e.g., 'Learner correctly identifies 3 factors')", "Observable evidence 2"]
+    }},
+    {{
+      "outcome": "Learning outcome 2", 
+      "criteria": "Specific success criteria",
+      "evidence_cues": ["Evidence cue 1", "Evidence cue 2"]
+    }}
+  ]
 }}
 
-Make it pedagogically sound, differentiated, and holistic."""
+Make it pedagogically sound, differentiated, and holistic. Ensure ALL instructions are specific enough that a parent with no teaching experience can guide their child through the activity."""
         
         chat = LlmChat(
             api_key=emergent_key,
