@@ -193,9 +193,11 @@ class Artifact(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     activity_id: str
     child_id: Optional[str] = None
+    title: Optional[str] = None
     filename: str
     content_type: str
     file_data: str
+    include_in_portfolio: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class ArtifactResponse(BaseModel):
@@ -203,9 +205,11 @@ class ArtifactResponse(BaseModel):
     id: str
     activity_id: str
     child_id: Optional[str] = None
+    title: Optional[str] = None
     filename: str
     content_type: str
     file_data: str
+    include_in_portfolio: bool = False
     created_at: str
 
 # ============ Portfolio Image Models ============
