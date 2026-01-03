@@ -250,7 +250,7 @@ const Dashboard = () => {
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-secondary">{stats.total_artifacts}</p>
-                    <p className="text-sm text-foreground/60">Submitted Artifacts</p>
+                    <p className="text-sm text-foreground/60">Artefacts Uploaded</p>
                   </div>
                 </div>
               </CardContent>
