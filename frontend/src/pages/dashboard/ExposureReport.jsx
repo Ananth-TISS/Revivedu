@@ -51,59 +51,6 @@ const ExposureReport = () => {
     }
   };
 
-  const handleImageUpload = async (e) => {
-    e.preventDefault();
-    
-    if (!selectedFile) {
-      toast.error("Please select an image");
-      return;
-    }
-
-    setUploadingImage(true);
-    try {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      formData.append("child_id", childId);
-      if (imageCaption) {
-        formData.append("caption", imageCaption);
-      }
-      
-      await axios.post(`${API}/portfolio/images`, formData, {
-        headers: {
-          ...getAuthHeaders(),
-          "Content-Type": "multipart/form-data"
-        }
-      });
-      
-      toast.success("Image uploaded successfully!");
-      setSelectedFile(null);
-      setImageCaption("");
-      fetchPortfolioImages();
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      toast.error("Failed to upload image");
-    } finally {
-      setUploadingImage(false);
-    }
-  };
-
-  const handleDeleteImage = async (imageId) => {
-    if (!window.confirm("Are you sure you want to delete this image?")) {
-      return;
-    }
-    
-    try {
-      await axios.delete(`${API}/portfolio/images/${imageId}`, {
-        headers: getAuthHeaders()
-      });
-      toast.success("Image deleted");
-      fetchPortfolioImages();
-    } catch (error) {
-      console.error("Error deleting image:", error);
-      toast.error("Failed to delete image");
-    }
-  };
-
   const handlePrint = () => {
     window.print();
   };
