@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Loader2, CheckCircle2, Upload, Lightbulb, Volume2, Play, Pause, Printer, Download } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ArrowLeft, Loader2, CheckCircle2, Upload, Lightbulb, Volume2, Play, Pause, Printer, Download, Info } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 
