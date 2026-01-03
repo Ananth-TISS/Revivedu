@@ -7,7 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ArrowLeft, Sparkles, Loader2, Info, AlertTriangle, UserPlus } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ArrowLeft, Sparkles, Loader2, Info, AlertTriangle, UserPlus, Eye, Clock, BookOpen } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import { toast } from "sonner";
@@ -29,7 +30,7 @@ const SUBJECTS = [
   "Economics"
 ];
 
-// Multiple Intelligences with icons (emoji-based for simplicity)
+// Multiple Intelligences with icons
 const INTELLIGENCES = [
   { name: "Linguistic", icon: "📚", description: "Ability with words - reading, writing, speaking. Good for storytelling and discussions." },
   { name: "Logical-Mathematical", icon: "🔢", description: "Thinking in patterns and sequences. Good for puzzles, experiments, and problem-solving." },
@@ -76,12 +77,44 @@ const ActivityGenerator = () => {
     tools: [],
     difficulty: "medium"
   });
+  
+  // Similar activities state
+  const [similarActivities, setSimilarActivities] = useState([]);
+  const [searchingSimilar, setSearchingSimilar] = useState(false);
+  const [showSimilarDialog, setShowSimilarDialog] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchChildren();
     }
   }, [isAuthenticated]);
+
+  // Search for similar activities when form data changes
+  useEffect(() => {
+    const searchSimilar = async () => {
+      if (formData.age && formData.subjects.length > 0) {
+        setSearchingSimilar(true);
+        try {
+          const response = await axios.post(`${API}/activities/similar`, {
+            age: parseInt(formData.age),
+            subjects: formData.subjects,
+            intelligences: formData.intelligences,
+            difficulty: formData.difficulty
+          });
+          setSimilarActivities(response.data);
+        } catch (error) {
+          console.error("Error searching similar activities:", error);
+        } finally {
+          setSearchingSimilar(false);
+        }
+      } else {
+        setSimilarActivities([]);
+      }
+    };
+    
+    const debounceTimer = setTimeout(searchSimilar, 500);
+    return () => clearTimeout(debounceTimer);
+  }, [formData.age, formData.subjects, formData.intelligences, formData.difficulty]);
 
   const fetchChildren = async () => {
     try {
@@ -103,7 +136,6 @@ const ActivityGenerator = () => {
     }
   };
 
-  // Handle age change and track if it differs from child's profile
   const handleAgeChange = (value) => {
     setFormData({ ...formData, age: value });
     if (originalChildAge !== null && parseInt(value) !== originalChildAge) {
@@ -113,7 +145,6 @@ const ActivityGenerator = () => {
     }
   };
 
-  // Handle child selection change
   const handleChildChange = (childId) => {
     setSelectedChildId(childId);
     if (childId && childId !== "none") {
@@ -159,6 +190,16 @@ const ActivityGenerator = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // If there are similar activities, show the dialog first
+    if (similarActivities.length > 0 && !showSimilarDialog) {
+      setShowSimilarDialog(true);
+      return;
+    }
+    
+    await generateNewActivity();
+  };
+
+  const generateNewActivity = async () => {
     // Validation
     if (!formData.age) {
       toast.error("Please select the child's age");
@@ -169,7 +210,7 @@ const ActivityGenerator = () => {
       return;
     }
     if (formData.intelligences.length === 0) {
-      toast.error("Please select at least one intelligence");
+      toast.error("Please select at least one intelligence type");
       return;
     }
     if (formData.tools.length === 0) {
@@ -178,6 +219,7 @@ const ActivityGenerator = () => {
     }
 
     setLoading(true);
+    setShowSimilarDialog(false);
     try {
       const response = await axios.post(`${API}/activities/generate`, {
         age: parseInt(formData.age),
@@ -187,7 +229,7 @@ const ActivityGenerator = () => {
         difficulty: formData.difficulty,
         child_id: selectedChildId && selectedChildId !== "none" ? selectedChildId : null
       });
-      
+
       toast.success("Activity generated successfully!");
       navigate(`/activity/${response.data.id}`);
     } catch (error) {
@@ -231,6 +273,77 @@ const ActivityGenerator = () => {
             </AlertDescription>
           </Alert>
         )}
+
+        {/* Similar Activities Dialog */}
+        <Dialog open={showSimilarDialog} onOpenChange={setShowSimilarDialog}>
+          <DialogContent className="rounded-3xl max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-2xl text-secondary">Similar Activities Found</DialogTitle>
+              <DialogDescription>
+                We found {similarActivities.length} existing activit{similarActivities.length === 1 ? 'y' : 'ies'} matching your criteria. 
+                You can use one of these or create a new activity.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 mt-4">
+              {similarActivities.slice(0, 5).map((activity) => (
+                <Card 
+                  key={activity.id} 
+                  className="rounded-2xl border-border/50 hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => navigate(`/activity/${activity.id}`)}
+                >
+                  <CardContent className="pt-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-secondary mb-1">{activity.title}</h4>
+                        <p className="text-sm text-foreground/60 line-clamp-2">{activity.description}</p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          <span className="px-2 py-0.5 bg-accent/20 text-accent-foreground rounded-full text-xs">
+                            Age {activity.age}
+                          </span>
+                          {activity.subjects.slice(0, 2).map(s => (
+                            <span key={s} className="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-xs">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" className="rounded-full">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              
+              <div className="flex gap-3 pt-4 border-t">
+                <Button
+                  onClick={() => setShowSimilarDialog(false)}
+                  variant="outline"
+                  className="flex-1 rounded-full"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={generateNewActivity}
+                  disabled={loading}
+                  className="flex-1 rounded-full bg-primary hover:bg-primary/90"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      Create New Activity
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         <form onSubmit={handleSubmit}>
           <div className="space-y-8">
@@ -338,58 +451,79 @@ const ActivityGenerator = () => {
             {/* Subject Selection */}
             <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="subjects-card">
               <CardHeader>
-                <CardTitle className="text-2xl text-secondary">Subjects</CardTitle>
-                <CardDescription>Select subjects to focus on (choose at least one)</CardDescription>
+                <CardTitle className="text-2xl text-secondary">Subjects *</CardTitle>
+                <CardDescription>Select one or more subjects for the activity</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                   {SUBJECTS.map((subject) => (
-                    <div key={subject} className="flex items-center space-x-3">
-                      <Checkbox
-                        data-testid={`subject-${subject.toLowerCase().replace(/\s+/g, '-')}`}
-                        id={`subject-${subject}`}
-                        checked={formData.subjects.includes(subject)}
-                        onCheckedChange={() => handleSubjectToggle(subject)}
-                      />
-                      <Label htmlFor={`subject-${subject}`} className="cursor-pointer">
-                        {subject}
-                      </Label>
+                    <div
+                      key={subject}
+                      data-testid={`subject-${subject}`}
+                      onClick={() => handleSubjectToggle(subject)}
+                      className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all duration-200 ${
+                        formData.subjects.includes(subject)
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-border hover:border-primary/50'
+                      }`}
+                    >
+                      <span className="text-sm font-medium">{subject}</span>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
-            {/* Multiple Intelligences Theory */}
+            {/* Multiple Intelligences Theory - Icon Grid */}
             <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="intelligences-card">
               <CardHeader>
-                <CardTitle className="text-2xl text-secondary">Multiple Intelligences Theory</CardTitle>
-                <CardDescription>Select intelligences to engage (choose at least one)</CardDescription>
+                <CardTitle className="text-2xl text-secondary">Multiple Intelligences Theory *</CardTitle>
+                <CardDescription>Select the intelligence types that match your child's strengths</CardDescription>
               </CardHeader>
               <CardContent>
                 <TooltipProvider>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {INTELLIGENCES.map((intelligence) => (
-                      <div key={intelligence.name} className="flex items-center space-x-3">
-                        <Checkbox
-                          data-testid={`intelligence-${intelligence.name.toLowerCase().replace(/\s+/g, '-')}`}
-                          id={`intelligence-${intelligence.name}`}
-                          checked={formData.intelligences.includes(intelligence.name)}
-                          onCheckedChange={() => handleIntelligenceToggle(intelligence)}
-                        />
-                        <div className="flex items-center space-x-2">
-                          <Label htmlFor={`intelligence-${intelligence.name}`} className="cursor-pointer">
-                            {intelligence.name}
-                          </Label>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Info className="h-4 w-4 text-muted-foreground cursor-help" />
-                            </TooltipTrigger>
-                            <TooltipContent className="max-w-xs">
-                              <p>{intelligence.description}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </div>
+                      <div
+                        key={intelligence.name}
+                        data-testid={`intelligence-${intelligence.name}`}
+                        onClick={() => handleIntelligenceToggle(intelligence)}
+                        className={`relative cursor-pointer rounded-2xl border-2 p-4 text-center transition-all duration-200 ${
+                          formData.intelligences.includes(intelligence.name)
+                            ? 'border-primary bg-primary/10 shadow-md'
+                            : 'border-border hover:border-primary/50 hover:shadow-sm'
+                        }`}
+                      >
+                        <div className="text-4xl mb-2">{intelligence.icon}</div>
+                        <span className={`text-sm font-medium block ${
+                          formData.intelligences.includes(intelligence.name) ? 'text-primary' : 'text-secondary'
+                        }`}>
+                          {intelligence.name}
+                        </span>
+                        
+                        {/* Info tooltip */}
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button
+                              type="button"
+                              onClick={(e) => e.stopPropagation()}
+                              className="absolute top-2 right-2 text-muted-foreground hover:text-primary"
+                            >
+                              <Info className="h-4 w-4" />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs">
+                            <p className="font-semibold mb-1">{intelligence.name}</p>
+                            <p className="text-sm">{intelligence.description}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                        
+                        {/* Selection indicator */}
+                        {formData.intelligences.includes(intelligence.name) && (
+                          <div className="absolute top-2 left-2 w-3 h-3 bg-primary rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs">✓</span>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -397,53 +531,63 @@ const ActivityGenerator = () => {
               </CardContent>
             </Card>
 
-            {/* Available Tools */}
+            {/* Tools Selection */}
             <Card className="rounded-3xl border-border/50 shadow-sm" data-testid="tools-card">
               <CardHeader>
-                <CardTitle className="text-2xl text-secondary">Available Tools</CardTitle>
-                <CardDescription>Select tools available at home (choose at least one)</CardDescription>
+                <CardTitle className="text-2xl text-secondary">Available Tools *</CardTitle>
+                <CardDescription>Select the materials and tools you have available</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {TOOLS.map((tool) => (
-                    <div key={tool} className="flex items-center space-x-3">
-                      <Checkbox
-                        data-testid={`tool-${tool.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-                        id={`tool-${tool}`}
-                        checked={formData.tools.includes(tool)}
-                        onCheckedChange={() => handleToolToggle(tool)}
-                      />
-                      <Label htmlFor={`tool-${tool}`} className="cursor-pointer">
-                        {tool}
-                      </Label>
+                    <div
+                      key={tool}
+                      data-testid={`tool-${tool}`}
+                      onClick={() => handleToolToggle(tool)}
+                      className={`cursor-pointer rounded-xl border-2 p-3 text-center transition-all duration-200 ${
+                        formData.tools.includes(tool)
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-border hover:border-primary/50'
+                      }`}
+                    >
+                      <span className="text-sm font-medium">{tool}</span>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
+            {/* Similar Activities Preview */}
+            {similarActivities.length > 0 && (
+              <Alert className="rounded-2xl border-2 border-blue-200 bg-blue-50">
+                <BookOpen className="h-5 w-5 text-blue-600" />
+                <AlertDescription className="ml-2 text-blue-800">
+                  <span className="font-semibold">{similarActivities.length} similar activit{similarActivities.length === 1 ? 'y' : 'ies'} found!</span>{" "}
+                  Based on your selections, we found existing activities that might work for you.
+                  Click "Generate Activity" to see them before creating a new one.
+                </AlertDescription>
+              </Alert>
+            )}
+
             {/* Submit Button */}
-            <div className="flex justify-center pt-6">
-              <Button
-                data-testid="submit-generate-btn"
-                type="submit"
-                size="lg"
-                disabled={loading}
-                className="rounded-full px-12 py-6 text-lg font-bold shadow-pop hover:shadow-pop-hover transform hover:-translate-y-1 transition-all duration-300 bg-primary hover:bg-primary/90"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="mr-2 h-5 w-5" />
-                    Generate Activity
-                  </>
-                )}
-              </Button>
-            </div>
+            <Button
+              data-testid="generate-btn"
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-full py-8 text-xl font-bold shadow-pop hover:shadow-pop-hover transform hover:-translate-y-1 transition-all duration-300 bg-primary hover:bg-primary/90"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                  Generating Activity...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 h-6 w-6" />
+                  {similarActivities.length > 0 ? 'View Similar or Generate New' : 'Generate Activity'}
+                </>
+              )}
+            </Button>
           </div>
         </form>
       </div>
