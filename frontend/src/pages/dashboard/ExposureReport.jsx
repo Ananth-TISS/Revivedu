@@ -260,7 +260,7 @@ const ExposureReport = () => {
         <div className="mb-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4" data-testid="report-header">
           <div>
             <h1 className="text-4xl sm:text-5xl font-bold text-secondary mb-2">
-              {report.child_name}'s Portfolio Sheet
+              {report.child_name}'s Portfolio
             </h1>
             <p className="text-lg text-foreground/80">
               Summary of learning activities, skills, and achievements
