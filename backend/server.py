@@ -1080,18 +1080,51 @@ async def upload_portfolio_image(
         logger.error(f"Error uploading portfolio image: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@api_router.get("/portfolio/images/{child_id}", response_model=List[PortfolioImageResponse])
+@api_router.get("/portfolio/images/{child_id}")
 async def get_portfolio_images(child_id: str, current_user: dict = Depends(get_current_user)):
     if not current_user:
         raise HTTPException(status_code=401, detail="Not authenticated")
     
     try:
-        images = await db.portfolio_images.find(
+        # Get artifacts that are marked for portfolio inclusion
+        artifacts = await db.artifacts.find(
+            {"child_id": child_id, "include_in_portfolio": True},
+            {"_id": 0}
+        ).sort("created_at", -1).to_list(100)
+        
+        # Also get any legacy portfolio images
+        legacy_images = await db.portfolio_images.find(
             {"child_id": child_id, "user_id": current_user["id"], "approved": True},
             {"_id": 0}
         ).sort("created_at", -1).to_list(100)
         
-        return [PortfolioImageResponse(**img) for img in images]
+        # Combine and return
+        result = []
+        for artifact in artifacts:
+            result.append({
+                "id": artifact.get("id"),
+                "child_id": artifact.get("child_id"),
+                "filename": artifact.get("filename"),
+                "content_type": artifact.get("content_type"),
+                "file_data": artifact.get("file_data"),
+                "title": artifact.get("title"),
+                "caption": artifact.get("title"),  # Use title as caption for compatibility
+                "created_at": artifact.get("created_at")
+            })
+        
+        for img in legacy_images:
+            result.append({
+                "id": img.get("id"),
+                "child_id": img.get("child_id"),
+                "filename": img.get("filename"),
+                "content_type": img.get("content_type"),
+                "file_data": img.get("file_data"),
+                "title": img.get("caption"),
+                "caption": img.get("caption"),
+                "created_at": img.get("created_at")
+            })
+        
+        return result
         
     except Exception as e:
         logger.error(f"Error fetching portfolio images: {str(e)}")
