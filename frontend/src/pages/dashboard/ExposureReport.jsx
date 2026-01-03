@@ -3,11 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/context/AuthContext";
-import { ArrowLeft, Loader2, TrendingUp, Award, Lightbulb, AlertCircle, BookOpen, Printer, Download, Upload, Image, Trash2 } from "lucide-react";
+import { ArrowLeft, Loader2, TrendingUp, Award, Lightbulb, AlertCircle, BookOpen, Printer, Download, Image } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 
@@ -21,11 +18,8 @@ const ExposureReport = () => {
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  // Portfolio images state
+  // Portfolio images state (images uploaded via activities with portfolio consent)
   const [portfolioImages, setPortfolioImages] = useState([]);
-  const [uploadingImage, setUploadingImage] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [imageCaption, setImageCaption] = useState("");
 
   useEffect(() => {
     fetchReport();
@@ -40,7 +34,7 @@ const ExposureReport = () => {
       setReport(response.data);
     } catch (error) {
       console.error("Error fetching report:", error);
-      toast.error("Failed to load portfolio sheet");
+      toast.error("Failed to load portfolio");
     } finally {
       setLoading(false);
     }
